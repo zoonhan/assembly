@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<!-- saved from url=(0134)file:///E:/onedrive/%EB%AC%B8%EC%84%9C/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%9B%90%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B8%8C/index.html -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>TRINITAS 조립 기록</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans+KR:wght@300;400;500;700&display=swap');
+
+  :root {
+    --bg: #0d0f0f;
+    --surface: #151919;
+    --surface2: #1c2222;
+    --border: #2a3333;
+    --accent: #00e5a0;
+    --accent2: #ff6b35;
+    --warn: #ffd166;
+    --text: #e8efef;
+    --text2: #8a9e9e;
+    --red: #ff4757;
+    --tag-design: #3a7bd5;
+    --tag-order: #f7971e;
+    --tag-part: #c0392b;
+    --tag-memo: #27ae60;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+  .header-sub {
+    font-size: 11px;
+    color: var(--text2);
+    margin-top: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .header-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-btn {
+    flex: 1;
+    padding: 12px 8px;
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .nav-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; padding: 20px; }
+  .screen.active { display: block; }
+
+  /* ── SESSION STATUS BAR ── */
+  .session-bar {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .session-bar.active-session {
+    border-color: var(--accent);
+    background: rgba(0, 229, 160, 0.05);
+  }
+  .session-info { font-size: 12px; color: var(--text2); font-family: 'IBM Plex Mono', monospace; }
+  .session-info strong { color: var(--text); font-size: 14px; display: block; margin-bottom: 2px; }
+  .session-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text2);
+  }
+  .session-dot.recording {
+    background: var(--red);
+    animation: pulse 1.2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .btn-primary { background: var(--accent); color: #000; width: 100%; }
+  .btn-primary:active { transform: scale(0.98); background: #00c98a; }
+  .btn-danger { background: var(--red); color: #fff; width: 100%; }
+  .btn-danger:active { transform: scale(0.98); }
+  .btn-outline {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 100%;
+  }
+  .btn-outline:active { background: var(--surface2); }
+  .btn-sm { padding: 8px 14px; font-size: 12px; width: auto; }
+  .btn-icon {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  /* ── START SESSION FORM ── */
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--text2);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .form-select, .form-input, .form-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 15px;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-select:focus, .form-input:focus, .form-textarea:focus {
+    border-color: var(--accent);
+  }
+  .form-textarea { resize: vertical; min-height: 80px; }
+
+  /* ── RECORD ENTRY PANEL ── */
+  .record-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .record-panel-title {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--text2);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  /* TAG SELECTOR */
+  .tag-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .tag-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text2);
+    font-size: 12px;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tag-btn.selected-도면수정 { background: var(--tag-design); border-color: var(--tag-design); color: #fff; }
+  .tag-btn.selected-조립순서 { background: var(--tag-order); border-color: var(--tag-order); color: #fff; }
+  .tag-btn.selected-부품교체 { background: var(--tag-part); border-color: var(--tag-part); color: #fff; }
+  .tag-btn.selected-메모 { background: var(--tag-memo); border-color: var(--tag-memo); color: #fff; }
+
+  /* PHOTO AREA */
+  .photo-area {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .photo-area:active { border-color: var(--accent); }
+  .photo-area img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+  .photo-area-text { font-size: 12px; color: var(--text2); text-align: center; }
+  .photo-area-icon { font-size: 32px; }
+  .photo-thumb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .photo-thumb {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-thumb-del {
+    position: absolute;
+    top: 3px; right: 3px;
+    background: rgba(0,0,0,0.7);
+    border: none;
+    color: #fff;
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .add-photo-cell {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    border: 2px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--text2);
+    cursor: pointer;
+  }
+
+  /* VOICE */
+  .voice-btn {
+    width: 100%;
+    height: 56px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.15s;
+    margin-bottom: 12px;
+  }
+  .voice-btn.recording {
+    background: rgba(255,71,87,0.1);
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .voice-indicator {
+    display: flex; gap: 3px; align-items: center;
+  }
+  .voice-bar {
+    width: 3px; height: 12px;
+    background: var(--red);
+    border-radius: 2px;
+    animation: voiceAnim 0.6s infinite alternate;
+  }
+  .voice-bar:nth-child(2) { animation-delay: 0.1s; height: 18px; }
+  .voice-bar:nth-child(3) { animation-delay: 0.2s; height: 10px; }
+  .voice-bar:nth-child(4) { animation-delay: 0.15s; height: 20px; }
+  .voice-bar:nth-child(5) { animation-delay: 0.05s; height: 14px; }
+  @keyframes voiceAnim { from{transform:scaleY(0.5)} to{transform:scaleY(1.3)} }
+
+  input[type="file"] { display: none; }
+
+  /* ── ENTRY LIST ── */
+  .entry-list { display: flex; flex-direction: column; gap: 12px; }
+  .entry-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .entry-card-header {
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .entry-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .tag-도면수정 { background: rgba(58,123,213,0.2); color: #6fa8e8; }
+  .tag-조립순서 { background: rgba(247,151,30,0.2); color: #f7971e; }
+  .tag-부품교체 { background: rgba(192,57,43,0.2); color: #e74c3c; }
+  .tag-메모 { background: rgba(39,174,96,0.2); color: #2ecc71; }
+  .entry-time { font-size: 11px; color: var(--text2); font-family: 'IBM Plex Mono', monospace; }
+  .entry-card-body { padding: 12px 14px; }
+  .entry-desc { font-size: 14px; line-height: 1.6; color: var(--text); margin-bottom: 8px; }
+  .entry-photos {
+    display: flex; gap: 6px; overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .entry-photos img {
+    height: 70px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .entry-del-btn {
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 6px;
+  }
+
+  /* ── REPORT / HISTORY ── */
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .session-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .session-card-header {
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .session-card-header:active { background: var(--surface2); }
+  .session-meta { font-size: 12px; color: var(--text2); font-family: 'IBM Plex Mono', monospace; margin-top: 2px; }
+  .session-card-body { padding: 14px 16px; border-top: 1px solid var(--border); display: none; }
+  .session-card-body.open { display: block; }
+  .count-badge {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 12px;
+    color: var(--text2);
+  }
+
+  /* AI REPORT */
+  .ai-report {
+    background: rgba(0, 229, 160, 0.04);
+    border: 1px solid rgba(0, 229, 160, 0.2);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 16px;
+  }
+  .ai-report-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .ai-report-content {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+  .ai-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text2);
+    font-size: 13px;
+  }
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 16px;
+  }
+  .filter-chip {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--text2);
+    font-size: 12px;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-chip.active {
+    background: var(--surface2);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* EMPTY STATE */
+  .empty {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--text2);
+    font-size: 13px;
+    line-height: 2;
+  }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  /* MODAL for image preview */
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal.open { display: flex; }
+  .modal img { max-width: 95vw; max-height: 90vh; border-radius: 8px; }
+  .modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .gap-8 { display: flex; flex-direction: column; gap: 8px; }
+  .mt-12 { margin-top: 12px; }
+  .mt-20 { margin-top: 20px; }
+  .text-accent { color: var(--accent); }
+  .text-sm { font-size: 12px; color: var(--text2); }
+  .flex-row { display: flex; gap: 10px; }
+  .flex-row .btn { flex: 1; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-logo">TRINITAS</div>
+    <div class="header-sub">ASSEMBLY LOG</div>
+  </div>
+  <div class="header-right">
+    <div class="session-dot" id="sessionDot"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showScreen(&#39;record&#39;)">기록</button>
+  <button class="nav-btn" onclick="showScreen(&#39;session&#39;)">세션</button>
+  <button class="nav-btn" onclick="showScreen(&#39;history&#39;)">이력</button>
+  <button class="nav-btn" onclick="showScreen(&#39;manual&#39;)">매뉴얼</button>
+</div>
+
+<!-- ══ SCREEN: 기록 ══ -->
+<div class="screen active" id="screen-record">
+
+  <!-- 세션 없을 때 -->
+  <div id="no-session" style="display: block;">
+    <div class="empty">
+      <div class="empty-icon">🔧</div>
+      <div>진행중인 조립 세션이 없습니다<br>세션을 시작해주세요</div>
+    </div>
+    <button class="btn btn-primary" onclick="showScreen(&#39;session&#39;)">＋ 새 세션 시작</button>
+  </div>
+
+  <!-- 세션 있을 때 -->
+  <div id="active-session-ui" style="display:none">
+    <div class="session-bar active-session">
+      <div class="session-info">
+        <strong id="active-session-label">-</strong>
+        <span id="active-session-time">-</span>
+      </div>
+      <div class="session-dot recording"></div>
+    </div>
+
+    <!-- 새 항목 입력 -->
+    <div class="record-panel">
+      <div class="record-panel-title">수정사항 추가</div>
+
+      <!-- 분류 태그 -->
+      <div class="tag-selector">
+        <button class="tag-btn" data-tag="도면수정" onclick="selectTag(this)">도면수정</button>
+        <button class="tag-btn" data-tag="조립순서" onclick="selectTag(this)">조립순서</button>
+        <button class="tag-btn" data-tag="부품교체" onclick="selectTag(this)">부품교체</button>
+        <button class="tag-btn" data-tag="메모" onclick="selectTag(this)">메모</button>
+      </div>
+
+      <!-- 사진 -->
+      <div class="photo-thumb-grid" id="photoThumbGrid"><div class="add-photo-cell">＋</div></div>
+      <input type="file" id="photoInput" accept="image/*" capture="environment" multiple="" onchange="handlePhotos(this)">
+
+      <!-- 음성 입력 -->
+      <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
+        <span id="voiceBtnIcon">🎙</span>
+        <span id="voiceBtnText">음성으로 설명하기</span>
+      </button>
+
+      <!-- 텍스트 -->
+      <div class="form-group">
+        <label class="form-label">내용</label>
+        <textarea class="form-textarea" id="entryDesc" placeholder="수정 내용을 입력하세요
+음성 입력 후 여기에 텍스트가 표시됩니다" rows="4"></textarea>
+      </div>
+
+      <button class="btn btn-primary" onclick="addEntry()">✓ 항목 저장</button>
+    </div>
+
+    <!-- 현재 세션 항목 목록 -->
+    <div class="section-title">이번 세션 기록 (<span id="entryCount">0</span>건)</div>
+    <div class="entry-list" id="entryList"><div class="empty"><div class="empty-icon">📋</div><div>아직 기록된 항목이 없습니다</div></div></div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: 세션 ══ -->
+<div class="screen" id="screen-session">
+
+  <div id="start-session-form" style="display: block;">
+    <div class="section-title">새 조립 세션</div>
+    <div class="form-group">
+      <label class="form-label">모델</label>
+      <select class="form-select" id="sessionModel">
+        <option value="T2">T2 (2kg)</option>
+        <option value="T7" selected="">T7 (7kg)</option>
+        <option value="T15">T15 (15kg)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">시리얼 / 호기</label>
+      <input class="form-input" id="sessionSerial" placeholder="예: T7-2025-001 / 2호기">
+    </div>
+    <div class="form-group">
+      <label class="form-label">담당자</label>
+      <input class="form-input" id="sessionWorker" placeholder="이름">
+    </div>
+    <div class="form-group">
+      <label class="form-label">비고</label>
+      <textarea class="form-textarea" id="sessionNote" placeholder="특이사항, 업그레이드 버전 등"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="startSession()">▶ 세션 시작</button>
+  </div>
+
+  <div id="end-session-form" style="display:none">
+    <div class="section-title">현재 세션</div>
+    <div class="session-bar active-session" style="margin-bottom:20px">
+      <div class="session-info">
+        <strong id="session-end-label">-</strong>
+        <span id="session-end-time">-</span>
+      </div>
+      <div class="session-dot recording"></div>
+    </div>
+
+    <div class="ai-report" id="aiReportArea" style="display:none">
+      <div class="ai-report-title">▸ AI 분석 리포트</div>
+      <div class="ai-report-content" id="aiReportContent"></div>
+    </div>
+
+    <div class="mt-20 gap-8">
+      <button class="btn btn-outline" onclick="generateReport()">🤖 AI 리포트 생성</button>
+      <button class="btn btn-danger" onclick="endSession()">■ 세션 종료 및 저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: 이력 ══ -->
+<div class="screen" id="screen-history">
+  <div class="section-title">전체 조립 이력</div>
+
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-chip active" onclick="filterHistory(&#39;all&#39;, this)">전체</button>
+    <button class="filter-chip" onclick="filterHistory(&#39;T2&#39;, this)">T2</button>
+    <button class="filter-chip" onclick="filterHistory(&#39;T7&#39;, this)">T7</button>
+    <button class="filter-chip" onclick="filterHistory(&#39;T15&#39;, this)">T15</button>
+    <button class="filter-chip" onclick="filterHistory(&#39;도면수정&#39;, this)">도면수정</button>
+    <button class="filter-chip" onclick="filterHistory(&#39;조립순서&#39;, this)">조립순서</button>
+    <button class="filter-chip" onclick="filterHistory(&#39;부품교체&#39;, this)">부품교체</button>
+  </div>
+
+  <div id="historyList">
+    <div class="empty">
+      <div class="empty-icon">📂</div>
+      <div>저장된 세션이 없습니다</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: 매뉴얼 ══ -->
+<div class="screen" id="screen-manual">
+  <div class="section-title">작업 매뉴얼 생성</div>
+
+  <div class="form-group">
+    <label class="form-label">대상 모델</label>
+    <select class="form-select" id="manualModel">
+      <option value="T2">T2</option>
+      <option value="T7" selected="">T7</option>
+      <option value="T15">T15</option>
+      <option value="all">전체</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">포함할 항목</label>
+    <div class="tag-selector" id="manualTagFilter">
+      <button class="tag-btn selected-도면수정" data-tag="도면수정" onclick="toggleManualTag(this)">도면수정</button>
+      <button class="tag-btn selected-조립순서" data-tag="조립순서" onclick="toggleManualTag(this)">조립순서</button>
+      <button class="tag-btn selected-부품교체" data-tag="부품교체" onclick="toggleManualTag(this)">부품교체</button>
+      <button class="tag-btn selected-메모" data-tag="메모" onclick="toggleManualTag(this)">메모</button>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="generateManual()">🤖 AI 매뉴얼 생성</button>
+
+  <div class="ai-report mt-20" id="manualOutput" style="display:none">
+    <div class="ai-report-title">▸ 생성된 매뉴얼</div>
+    <div class="ai-report-content" id="manualContent"></div>
+    <div class="mt-12">
+      <button class="btn btn-outline btn-sm" onclick="copyManual()">📋 클립보드 복사</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMAGE PREVIEW MODAL -->
+<div class="modal" id="imgModal" onclick="closeModal()">
+  <button class="modal-close">✕</button>
+  <img id="modalImg" src="file:///E:/onedrive/%EB%AC%B8%EC%84%9C/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%9B%90%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B8%8C/index.html">
+</div>
+
+<script>
+// ══ STATE ══
+let state = {
+  currentSession: null,
+  entries: [],      // 현재 세션 항목
+  sessions: [],     // 저장된 세션들
+  currentPhotos: [],
+  selectedTag: null,
+  isRecording: false,
+  recognition: null,
+  manualSelectedTags: ['도면수정','조립순서','부품교체','메모'],
+};
+
+// ══ INIT ══
+loadData();
+updateUI();
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem('trinitas_sessions');
+    if (saved) state.sessions = JSON.parse(saved);
+  } catch(e) {}
+}
+
+function saveData() {
+  try {
+    localStorage.setItem('trinitas_sessions', JSON.stringify(state.sessions));
+  } catch(e) {
+    try {
+      const slim = state.sessions.map(s => ({
+        ...s,
+        entries: s.entries.map(e => ({ ...e, photos: [] }))
+      }));
+      localStorage.setItem('trinitas_sessions', JSON.stringify(slim));
+      alert('저장 공간 부족으로 사진 데이터는 제외하고 저장됐습니다.');
+    } catch(e2) {
+      alert('저장 실패. 오래된 세션을 삭제해주세요.');
+    }
+  }
+}
+
+// ══ NAVIGATION ══
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const map = {record:0, session:1, history:2, manual:3};
+  navBtns[map[name]].classList.add('active');
+  if (name === 'history') renderHistory('all');
+}
+
+// ══ SESSION ══
+function startSession() {
+  const model = document.getElementById('sessionModel').value;
+  const serial = document.getElementById('sessionSerial').value || '-';
+  const worker = document.getElementById('sessionWorker').value || '-';
+  const note = document.getElementById('sessionNote').value;
+
+  state.currentSession = {
+    id: Date.now(),
+    model, serial, worker, note,
+    startTime: new Date().toISOString(),
+    endTime: null,
+    entries: [],
+    aiReport: '',
+  };
+  state.entries = [];
+
+  updateUI();
+  showScreen('record');
+}
+
+function endSession() {
+  if (!state.currentSession) return;
+  if (!confirm('세션을 종료하고 저장하시겠습니까?')) return;
+
+  state.currentSession.endTime = new Date().toISOString();
+  state.currentSession.entries = [...state.entries];
+
+  // AI 리포트가 있으면 포함
+  const reportEl = document.getElementById('aiReportContent');
+  if (reportEl && reportEl.textContent) {
+    state.currentSession.aiReport = reportEl.textContent;
+  }
+
+  state.sessions.unshift(state.currentSession);
+  saveData();
+
+  state.currentSession = null;
+  state.entries = [];
+  state.currentPhotos = [];
+  state.selectedTag = null;
+
+  document.getElementById('aiReportArea').style.display = 'none';
+  document.getElementById('aiReportContent').textContent = '';
+
+  updateUI();
+  showScreen('history');
+}
+
+// ══ ENTRY ══
+function selectTag(btn) {
+  document.querySelectorAll('.tag-btn').forEach(b => {
+    b.className = 'tag-btn';
+  });
+  const tag = btn.dataset.tag;
+  btn.classList.add('selected-' + tag);
+  state.selectedTag = tag;
+}
+
+function triggerPhoto() {
+  document.getElementById('photoInput').click();
+}
+
+function handlePhotos(input) {
+  const files = Array.from(input.files);
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      state.currentPhotos.push(e.target.result);
+      renderPhotoThumbs();
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+function renderPhotoThumbs() {
+  const grid = document.getElementById('photoThumbGrid');
+  grid.innerHTML = '';
+  state.currentPhotos.forEach((src, i) => {
+    const div = document.createElement('div');
+    div.className = 'photo-thumb';
+    div.innerHTML = `<img src="${src}" onclick="openModal('${src}')">
+      <button class="photo-thumb-del" onclick="removePhoto(${i})">✕</button>`;
+    grid.appendChild(div);
+  });
+  const add = document.createElement('div');
+  add.className = 'add-photo-cell';
+  add.textContent = '＋';
+  add.onclick = triggerPhoto;
+  grid.appendChild(add);
+}
+
+function removePhoto(i) {
+  state.currentPhotos.splice(i, 1);
+  renderPhotoThumbs();
+}
+
+function addEntry() {
+  const desc = document.getElementById('entryDesc').value.trim();
+  if (!desc && state.currentPhotos.length === 0) {
+    alert('내용 또는 사진을 추가해주세요.');
+    return;
+  }
+  if (!state.selectedTag) {
+    alert('분류를 선택해주세요.');
+    return;
+  }
+
+  const entry = {
+    id: Date.now(),
+    tag: state.selectedTag,
+    desc,
+    photos: [...state.currentPhotos],
+    time: new Date().toISOString(),
+  };
+
+  state.entries.unshift(entry);
+
+  // 초기화
+  document.getElementById('entryDesc').value = '';
+  state.currentPhotos = [];
+  state.selectedTag = null;
+  document.querySelectorAll('.tag-btn').forEach(b => b.className = 'tag-btn');
+  renderPhotoThumbs();
+  renderEntries();
+}
+
+function deleteEntry(id) {
+  if (!confirm('이 항목을 삭제하시겠습니까?')) return;
+  state.entries = state.entries.filter(e => e.id !== id);
+  renderEntries();
+}
+
+function renderEntries() {
+  const list = document.getElementById('entryList');
+  const empty = document.getElementById('entryEmpty');
+  document.getElementById('entryCount').textContent = state.entries.length;
+
+  if (state.entries.length === 0) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><div>아직 기록된 항목이 없습니다</div></div>';
+    return;
+  }
+
+  list.innerHTML = state.entries.map(e => `
+    <div class="entry-card">
+      <div class="entry-card-header">
+        <span class="entry-tag tag-${e.tag}">${e.tag}</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="entry-time">${formatTime(e.time)}</span>
+          <button class="entry-del-btn" onclick="deleteEntry(${e.id})">✕</button>
+        </div>
+      </div>
+      <div class="entry-card-body">
+        ${e.desc ? `<div class="entry-desc">${e.desc}</div>` : ''}
+        ${e.photos.length > 0 ? `
+          <div class="entry-photos">
+            ${e.photos.map(p => `<img src="${p}" onclick="openModal('${p}')">`).join('')}
+          </div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ══ VOICE ══
+function toggleVoice() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('이 브라우저는 음성 입력을 지원하지 않습니다.\nSafari 또는 Chrome을 사용해주세요.');
+    return;
+  }
+
+  if (state.isRecording) {
+    state.recognition && state.recognition.stop();
+    return;
+  }
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  state.recognition = new SR();
+  state.recognition.lang = 'ko-KR';
+  state.recognition.continuous = true;
+  state.recognition.interimResults = true;
+
+  state.recognition.onstart = () => {
+    state.isRecording = true;
+    const btn = document.getElementById('voiceBtn');
+    btn.classList.add('recording');
+    document.getElementById('voiceBtnText').textContent = '녹음 중... (탭하여 중지)';
+    document.getElementById('voiceBtnIcon').innerHTML =
+      '<div class="voice-indicator"><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div></div>';
+  };
+
+  state.recognition.onresult = (event) => {
+    let transcript = '';
+    for (let i = 0; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    document.getElementById('entryDesc').value = transcript;
+  };
+
+  state.recognition.onend = () => {
+    state.isRecording = false;
+    const btn = document.getElementById('voiceBtn');
+    btn.classList.remove('recording');
+    document.getElementById('voiceBtnText').textContent = '음성으로 설명하기';
+    document.getElementById('voiceBtnIcon').textContent = '🎙';
+  };
+
+  state.recognition.start();
+}
+
+// ══ AI REPORT ══
+async function generateReport() {
+  if (state.entries.length === 0) {
+    alert('기록된 항목이 없습니다.');
+    return;
+  }
+
+  const reportArea = document.getElementById('aiReportArea');
+  const reportContent = document.getElementById('aiReportContent');
+  reportArea.style.display = 'block';
+  reportContent.innerHTML = '<div class="ai-loading"><div class="spinner"></div>AI가 분석 중입니다...</div>';
+
+  const s = state.currentSession;
+  const entriesText = state.entries.map((e, i) =>
+    `${i+1}. [${e.tag}] ${e.desc || '(텍스트 없음)'} (${formatTime(e.time)})`
+  ).join('\n');
+
+  const prompt = `당신은 커피 로스터기 제조 전문가입니다. 다음은 TRINITAS ${s.model} 로스터기 조립 중 기록된 수정사항입니다. 이를 분석하여 명확하고 구조화된 보고서를 작성해주세요.
+
+모델: ${s.model}
+시리얼/호기: ${s.serial}
+조립 일시: ${formatDate(s.startTime)}
+담당자: ${s.worker}
+${s.note ? `비고: ${s.note}` : ''}
+
+기록된 수정사항:
+${entriesText}
+
+다음 형식으로 작성해주세요:
+1. 요약 (전체 수정사항 개수, 주요 이슈)
+2. 도면수정 항목 (있는 경우)
+3. 조립순서 주의사항 (있는 경우)
+4. 부품교체 항목 (있는 경우)
+5. 기타 메모 (있는 경우)
+6. 다음 조립 시 우선 반영사항`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.find(c => c.type === 'text')?.text || '분석 실패';
+    reportContent.textContent = text;
+  } catch(e) {
+    reportContent.textContent = '오류가 발생했습니다. 인터넷 연결을 확인해주세요.';
+  }
+}
+
+// ══ HISTORY ══
+function renderHistory(filter) {
+  const list = document.getElementById('historyList');
+
+  let sessions = [...state.sessions];
+  if (filter !== 'all') {
+    const tags = ['도면수정','조립순서','부품교체','메모'];
+    if (tags.includes(filter)) {
+      sessions = sessions.filter(s => s.entries.some(e => e.tag === filter));
+    } else {
+      sessions = sessions.filter(s => s.model === filter);
+    }
+  }
+
+  if (sessions.length === 0) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">📂</div><div>해당 조건의 세션이 없습니다</div></div>';
+    return;
+  }
+
+  list.innerHTML = sessions.map(s => {
+    const tagCounts = {};
+    s.entries.forEach(e => { tagCounts[e.tag] = (tagCounts[e.tag]||0)+1; });
+    const tagBadges = Object.entries(tagCounts).map(([t,c]) =>
+      `<span class="entry-tag tag-${t}" style="font-size:10px;padding:2px 8px">${t} ${c}</span>`
+    ).join('');
+
+    const entriesHtml = s.entries.map(e => `
+      <div class="entry-card" style="margin-bottom:8px">
+        <div class="entry-card-header">
+          <span class="entry-tag tag-${e.tag}">${e.tag}</span>
+          <span class="entry-time">${formatTime(e.time)}</span>
+        </div>
+        <div class="entry-card-body">
+          ${e.desc ? `<div class="entry-desc">${e.desc}</div>` : ''}
+          ${e.photos.length > 0 ? `<div class="entry-photos">${e.photos.map(p => `<img src="${p}" onclick="openModal('${p}')">`).join('')}</div>` : ''}
+        </div>
+      </div>
+    `).join('');
+
+    const aiHtml = s.aiReport ? `
+      <div class="ai-report" style="margin-top:12px">
+        <div class="ai-report-title">▸ AI 분석 리포트</div>
+        <div class="ai-report-content">${s.aiReport}</div>
+      </div>` : '';
+
+    return `
+      <div class="session-card">
+        <div class="session-card-header" onclick="toggleSession(this)">
+          <div>
+            <div style="font-weight:600;font-size:15px">${s.model} · ${s.serial}</div>
+            <div class="session-meta">${formatDate(s.startTime)} · ${s.worker}</div>
+            <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${tagBadges}</div>
+          </div>
+          <span class="count-badge">${s.entries.length}건</span>
+        </div>
+        <div class="session-card-body">
+          ${entriesHtml}
+          ${aiHtml}
+          <div class="mt-12">
+            <button class="btn btn-outline btn-sm" onclick="deleteSession(${s.id})">🗑 세션 삭제</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleSession(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+function filterHistory(filter, chip) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  renderHistory(filter);
+}
+
+function deleteSession(id) {
+  if (!confirm('이 세션을 삭제하시겠습니까? 복구할 수 없습니다.')) return;
+  state.sessions = state.sessions.filter(s => s.id !== id);
+  saveData();
+  renderHistory('all');
+}
+
+// ══ MANUAL ══
+function toggleManualTag(btn) {
+  const tag = btn.dataset.tag;
+  const idx = state.manualSelectedTags.indexOf(tag);
+  if (idx > -1) {
+    state.manualSelectedTags.splice(idx, 1);
+    btn.className = 'tag-btn';
+  } else {
+    state.manualSelectedTags.push(tag);
+    btn.classList.add('selected-' + tag);
+  }
+}
+
+async function generateManual() {
+  const model = document.getElementById('manualModel').value;
+  const tags = state.manualSelectedTags;
+
+  if (tags.length === 0) { alert('포함할 항목을 선택해주세요.'); return; }
+
+  let sessions = state.sessions;
+  if (model !== 'all') sessions = sessions.filter(s => s.model === model);
+
+  const allEntries = sessions.flatMap(s =>
+    s.entries
+      .filter(e => tags.includes(e.tag))
+      .map(e => ({ ...e, model: s.model, serial: s.serial, date: s.startTime }))
+  );
+
+  if (allEntries.length === 0) {
+    alert('해당 조건의 기록이 없습니다.');
+    return;
+  }
+
+  const output = document.getElementById('manualOutput');
+  const content = document.getElementById('manualContent');
+  output.style.display = 'block';
+  content.innerHTML = '<div class="ai-loading"><div class="spinner"></div>매뉴얼을 생성 중입니다...</div>';
+
+  const entriesText = allEntries.map((e, i) =>
+    `${i+1}. [${e.tag}][${e.model}·${e.serial}] ${e.desc || ''} (${formatDate(e.date)})`
+  ).join('\n');
+
+  const prompt = `당신은 커피 로스터기 제조 전문가입니다. 다음은 TRINITAS ${model === 'all' ? '전 모델' : model} 로스터기 조립 이력에서 수집된 수정/개선 사항들입니다.
+
+이 데이터를 바탕으로 조립 작업 매뉴얼을 작성해주세요.
+
+수집된 이력:
+${entriesText}
+
+매뉴얼 형식:
+1. 도면 수정 이력 및 최종 사양 (도면수정 항목)
+2. 조립 순서 주의사항 (조립순서 항목, 체크리스트 형식)
+3. 부품 교체 이력 (부품교체 항목)
+4. 작업 팁 및 메모 (메모 항목)
+
+반복되는 이슈는 하나로 통합하고, 중요도 순으로 정렬해주세요.
+실제 현장에서 바로 사용할 수 있는 간결하고 명확한 형식으로 작성해주세요.`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    const text = data.content?.find(c => c.type === 'text')?.text || '생성 실패';
+    content.textContent = text;
+  } catch(e) {
+    content.textContent = '오류가 발생했습니다.';
+  }
+}
+
+function copyManual() {
+  const text = document.getElementById('manualContent').textContent;
+  navigator.clipboard.writeText(text).then(() => alert('클립보드에 복사되었습니다.'));
+}
+
+// ══ UI UPDATE ══
+function updateUI() {
+  const hasSession = !!state.currentSession;
+
+  document.getElementById('no-session').style.display = hasSession ? 'none' : 'block';
+  document.getElementById('active-session-ui').style.display = hasSession ? 'block' : 'none';
+  document.getElementById('start-session-form').style.display = hasSession ? 'none' : 'block';
+  document.getElementById('end-session-form').style.display = hasSession ? 'block' : 'none';
+  document.getElementById('sessionDot').className = 'session-dot' + (hasSession ? ' recording' : '');
+
+  if (hasSession) {
+    const label = `${state.currentSession.model} · ${state.currentSession.serial}`;
+    const time = formatDate(state.currentSession.startTime);
+    document.getElementById('active-session-label').textContent = label;
+    document.getElementById('active-session-time').textContent = time;
+    document.getElementById('session-end-label').textContent = label;
+    document.getElementById('session-end-time').textContent = time;
+  }
+
+  renderEntries();
+  renderPhotoThumbs();
+}
+
+// ══ MODAL ══
+function openModal(src) {
+  document.getElementById('modalImg').src = src;
+  document.getElementById('imgModal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('imgModal').classList.remove('open');
+}
+
+// ══ UTILS ══
+function formatDate(iso) {
+  if (!iso) return '-';
+  const d = new Date(iso);
+  return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+}
+function formatTime(iso) {
+  if (!iso) return '-';
+  const d = new Date(iso);
+  return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+</script>
+
+
+</body></html>
