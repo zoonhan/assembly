@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0134)file:///E:/onedrive/%EB%AC%B8%EC%84%9C/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%9B%90%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B8%8C/index.html -->
+<!-- saved from url=(0136)file:///E:/onedrive/%EB%AC%B8%EC%84%9C/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%9B%90%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B8%8C/index_1.html -->
 <html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -12,16 +12,16 @@
     --surface: #151919;
     --surface2: #1c2222;
     --border: #2a3333;
-    --accent: #00e5a0;
-    --accent2: #ff6b35;
+    --accent: #4db8ff;
+    --accent2: #ffd166;
     --warn: #ffd166;
     --text: #e8efef;
     --text2: #8a9e9e;
-    --red: #ff4757;
+    --red: #ffc300;
     --tag-design: #3a7bd5;
-    --tag-order: #f7971e;
-    --tag-part: #c0392b;
-    --tag-memo: #27ae60;
+    --tag-order: #ffd166;
+    --tag-part: #4db8ff;
+    --tag-memo: #a78bfa;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -718,7 +718,7 @@
 <!-- IMAGE PREVIEW MODAL -->
 <div class="modal" id="imgModal" onclick="closeModal()">
   <button class="modal-close">✕</button>
-  <img id="modalImg" src="file:///E:/onedrive/%EB%AC%B8%EC%84%9C/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%9B%90%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B8%8C/index.html">
+  <img id="modalImg" src="file:///E:/onedrive/%EB%AC%B8%EC%84%9C/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C%20%EC%9B%90%EB%93%9C%EB%9D%BC%EC%9D%B4%EB%B8%8C/index_1.html">
 </div>
 
 <script>
@@ -795,28 +795,37 @@ function startSession() {
 }
 
 function endSession() {
-  if (!state.currentSession) return;
+  if (!state.currentSession) { alert('진행중인 세션이 없습니다.'); return; }
   if (!confirm('세션을 종료하고 저장하시겠습니까?')) return;
 
-  state.currentSession.endTime = new Date().toISOString();
-  state.currentSession.entries = [...state.entries];
+  try {
+    state.currentSession.endTime = new Date().toISOString();
+    state.currentSession.entries = JSON.parse(JSON.stringify(state.entries));
 
-  // AI 리포트가 있으면 포함
-  const reportEl = document.getElementById('aiReportContent');
-  if (reportEl && reportEl.textContent) {
-    state.currentSession.aiReport = reportEl.textContent;
+    // AI 리포트가 있으면 포함
+    const reportEl = document.getElementById('aiReportContent');
+    if (reportEl && reportEl.textContent) {
+      state.currentSession.aiReport = reportEl.textContent;
+    }
+
+    const sessionToSave = JSON.parse(JSON.stringify(state.currentSession));
+    state.sessions.unshift(sessionToSave);
+    saveData();
+    alert('저장 완료! 항목 ' + sessionToSave.entries.length + '건이 저장됐습니다.');
+  } catch(e) {
+    alert('저장 오류: ' + e.message);
+    return;
   }
-
-  state.sessions.unshift(state.currentSession);
-  saveData();
 
   state.currentSession = null;
   state.entries = [];
   state.currentPhotos = [];
   state.selectedTag = null;
 
-  document.getElementById('aiReportArea').style.display = 'none';
-  document.getElementById('aiReportContent').textContent = '';
+  const aiArea = document.getElementById('aiReportArea');
+  const aiContent = document.getElementById('aiReportContent');
+  if (aiArea) aiArea.style.display = 'none';
+  if (aiContent) aiContent.textContent = '';
 
   updateUI();
   showScreen('history');
