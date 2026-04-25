@@ -1,1 +1,463 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><script src="https://accounts.google.com/gsi/client" async defer></script><title>test</title></head><body><script>window.onload=()=>{if(typeof google!=='undefined'){document.body.innerHTML='구글 스크립트 로딩 성공!';}else{document.body.innerHTML='실패';}}</script></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<title>TRINITAS 조립 기록</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans+KR:wght@300;400;500;700&display=swap');
+  :root {
+    --bg: #0d0f0f; --surface: #151919; --surface2: #1c2222; --border: #2a3333;
+    --accent: #4db8ff; --accent2: #ffd166; --warn: #ffd166; --text: #e8efef;
+    --text2: #8a9e9e; --red: #ffc300; --tag-design: #3a7bd5; --tag-order: #ffd166;
+    --tag-part: #4db8ff; --tag-memo: #a78bfa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans KR', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+  .header-logo { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: 3px; color: var(--accent); }
+  .header-sub { font-size: 11px; color: var(--text2); margin-top: 2px; font-family: 'IBM Plex Mono', monospace; }
+  .header-right { display: flex; gap: 10px; align-items: center; }
+  .nav { display: flex; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .nav-btn { flex: 1; padding: 12px 8px; background: none; border: none; color: var(--text2); font-family: 'IBM Plex Sans KR', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; letter-spacing: 0.5px; }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .screen { display: none; padding: 20px; }
+  .screen.active { display: block; }
+  .session-bar { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+  .session-bar.active-session { border-color: var(--accent); background: rgba(0,229,160,0.05); }
+  .session-info { font-size: 12px; color: var(--text2); font-family: 'IBM Plex Mono', monospace; }
+  .session-info strong { color: var(--text); font-size: 14px; display: block; margin-bottom: 2px; }
+  .session-dot { width: 12px; height: 12px; border-radius: 50%; background: #555; }
+  .session-dot.recording { background: #ffc300; animation: pulse 1.2s infinite; box-shadow: 0 0 8px #ffc300; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; border-radius: 8px; border: none; font-family: 'IBM Plex Sans KR', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px; }
+  .btn-primary { background: var(--accent); color: #000; width: 100%; }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-danger { background: var(--red); color: #000; width: 100%; }
+  .btn-outline { background: none; border: 1px solid var(--border); color: var(--text); width: 100%; }
+  .btn-outline:active { background: var(--surface2); }
+  .btn-sm { padding: 8px 14px; font-size: 12px; width: auto; }
+  .form-group { margin-bottom: 16px; }
+  .form-label { display: block; font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--text2); letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+  .form-select, .form-input, .form-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'IBM Plex Sans KR', sans-serif; font-size: 15px; padding: 14px 16px; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
+  .form-select:focus, .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-textarea { resize: vertical; min-height: 80px; }
+  .record-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .record-panel-title { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--text2); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 16px; }
+  .tag-selector { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--text2); font-size: 12px; font-family: 'IBM Plex Sans KR', sans-serif; cursor: pointer; transition: all 0.15s; }
+  .tag-btn.selected-도면수정 { background: var(--tag-design); border-color: var(--tag-design); color: #fff; }
+  .tag-btn.selected-조립순서 { background: var(--tag-order); border-color: var(--tag-order); color: #000; }
+  .tag-btn.selected-부품교체 { background: var(--tag-part); border-color: var(--tag-part); color: #fff; }
+  .tag-btn.selected-메모 { background: var(--tag-memo); border-color: var(--tag-memo); color: #fff; }
+  .photo-thumb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 16px; }
+  .photo-thumb { aspect-ratio: 1; border-radius: 6px; overflow: hidden; position: relative; }
+  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-thumb-del { position: absolute; top: 3px; right: 3px; background: rgba(0,0,0,0.7); border: none; color: #fff; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .add-photo-cell { aspect-ratio: 1; border-radius: 6px; border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text2); cursor: pointer; }
+  .voice-btn { width: 100%; height: 56px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 14px; font-family: 'IBM Plex Sans KR', sans-serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.15s; margin-bottom: 12px; }
+  .voice-btn.recording { background: rgba(255,195,0,0.1); border-color: var(--red); color: var(--red); }
+  .voice-indicator { display: flex; gap: 3px; align-items: center; }
+  .voice-bar { width: 3px; height: 12px; background: var(--red); border-radius: 2px; animation: voiceAnim 0.6s infinite alternate; }
+  .voice-bar:nth-child(2) { animation-delay: 0.1s; height: 18px; }
+  .voice-bar:nth-child(3) { animation-delay: 0.2s; height: 10px; }
+  .voice-bar:nth-child(4) { animation-delay: 0.15s; height: 20px; }
+  .voice-bar:nth-child(5) { animation-delay: 0.05s; height: 14px; }
+  @keyframes voiceAnim { from{transform:scaleY(0.5)} to{transform:scaleY(1.3)} }
+  input[type="file"] { display: none; }
+  .entry-list { display: flex; flex-direction: column; gap: 12px; }
+  .entry-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .entry-card-header { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+  .entry-tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 12px; font-family: 'IBM Plex Mono', monospace; }
+  .tag-도면수정 { background: rgba(58,123,213,0.2); color: #6fa8e8; }
+  .tag-조립순서 { background: rgba(255,209,102,0.2); color: #ffd166; }
+  .tag-부품교체 { background: rgba(77,184,255,0.2); color: #4db8ff; }
+  .tag-메모 { background: rgba(167,139,250,0.2); color: #a78bfa; }
+  .entry-time { font-size: 11px; color: var(--text2); font-family: 'IBM Plex Mono', monospace; }
+  .entry-card-body { padding: 12px 14px; }
+  .entry-desc { font-size: 14px; line-height: 1.6; color: var(--text); margin-bottom: 8px; }
+  .entry-photos { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+  .entry-photos img { height: 70px; border-radius: 6px; flex-shrink: 0; cursor: pointer; }
+  .entry-del-btn { background: none; border: none; color: var(--text2); font-size: 16px; cursor: pointer; padding: 2px 6px; }
+  .section-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .session-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .session-card-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+  .session-card-header:active { background: var(--surface2); }
+  .session-meta { font-size: 12px; color: var(--text2); font-family: 'IBM Plex Mono', monospace; margin-top: 2px; }
+  .session-card-body { padding: 14px 16px; border-top: 1px solid var(--border); display: none; }
+  .session-card-body.open { display: block; }
+  .count-badge { font-size: 11px; font-family: 'IBM Plex Mono', monospace; background: var(--surface2); border: 1px solid var(--border); padding: 3px 10px; border-radius: 12px; color: var(--text2); }
+  .ai-report { background: rgba(77,184,255,0.04); border: 1px solid rgba(77,184,255,0.2); border-radius: 10px; padding: 16px; margin-top: 16px; }
+  .ai-report-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 1.5px; margin-bottom: 12px; }
+  .ai-report-content { font-size: 13px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+  .ai-loading { display: flex; align-items: center; gap: 10px; color: var(--text2); font-size: 13px; }
+  .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .filter-bar { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+  .filter-chip { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: none; color: var(--text2); font-size: 12px; font-family: 'IBM Plex Sans KR', sans-serif; white-space: nowrap; cursor: pointer; transition: all 0.15s; }
+  .filter-chip.active { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .empty { text-align: center; padding: 48px 20px; color: var(--text2); font-size: 13px; line-height: 2; }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 999; align-items: center; justify-content: center; }
+  .modal.open { display: flex; }
+  .modal img { max-width: 95vw; max-height: 90vh; border-radius: 8px; }
+  .modal-close { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 24px; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .sync-bar { padding: 8px 14px; border-radius: 8px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; margin-bottom: 14px; border: 1px solid var(--border); color: var(--text2); display: flex; align-items: center; justify-content: space-between; }
+  .sync-bar.ok { border-color: rgba(77,184,255,0.4); color: #4db8ff; background: rgba(77,184,255,0.05); }
+  .sync-bar.err { border-color: rgba(255,195,0,0.4); color: #ffc300; }
+  .gap-8 { display: flex; flex-direction: column; gap: 8px; }
+  .mt-12 { margin-top: 12px; } .mt-20 { margin-top: 20px; }
+  .flex-row { display: flex; gap: 10px; }
+  .flex-row .btn { flex: 1; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div><div class="header-logo">TRINITAS</div><div class="header-sub">ASSEMBLY LOG</div></div>
+  <div class="header-right">
+    <button id="googleBtn" onclick="handleGoogleLogin()" style="background:none;border:1px solid var(--border);color:var(--text2);font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:IBM Plex Mono,monospace;" disabled>☁ 로딩중...</button>
+    <div class="session-dot" id="sessionDot"></div>
+  </div>
+</div>
+<div class="nav">
+  <button class="nav-btn active" onclick="showScreen('record')">기록</button>
+  <button class="nav-btn" onclick="showScreen('session')">세션</button>
+  <button class="nav-btn" onclick="showScreen('history')">이력</button>
+  <button class="nav-btn" onclick="showScreen('manual')">매뉴얼</button>
+</div>
+<div class="screen active" id="screen-record">
+  <div class="sync-bar" id="syncBar">☁ 로컬 저장 중 · 구글 드라이브 미연동</div>
+  <div id="no-session">
+    <div class="empty"><div class="empty-icon">🔧</div><div>진행중인 조립 세션이 없습니다<br>세션을 시작해주세요</div></div>
+    <button class="btn btn-primary" onclick="showScreen('session')">＋ 새 세션 시작</button>
+  </div>
+  <div id="active-session-ui" style="display:none">
+    <div class="session-bar active-session">
+      <div class="session-info"><strong id="active-session-label">-</strong><span id="active-session-time">-</span></div>
+      <div class="session-dot recording"></div>
+    </div>
+    <div class="record-panel">
+      <div class="record-panel-title">수정사항 추가</div>
+      <div class="tag-selector">
+        <button class="tag-btn" data-tag="도면수정" onclick="selectTag(this)">도면수정</button>
+        <button class="tag-btn" data-tag="조립순서" onclick="selectTag(this)">조립순서</button>
+        <button class="tag-btn" data-tag="부품교체" onclick="selectTag(this)">부품교체</button>
+        <button class="tag-btn" data-tag="메모" onclick="selectTag(this)">메모</button>
+      </div>
+      <div class="photo-thumb-grid" id="photoThumbGrid"><div class="add-photo-cell" onclick="triggerPhoto()">＋</div></div>
+      <div class="flex-row" style="margin-bottom:12px">
+        <button class="btn btn-outline btn-sm" onclick="triggerCamera()" style="flex:1">📷 촬영</button>
+        <button class="btn btn-outline btn-sm" onclick="triggerGallery()" style="flex:1">🖼 갤러리</button>
+      </div>
+      <input type="file" id="photoInputCamera" accept="image/*" capture="environment" multiple onchange="handlePhotos(this)">
+      <input type="file" id="photoInputGallery" accept="image/*" multiple onchange="handlePhotos(this)">
+      <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
+        <span id="voiceBtnIcon">🎙</span><span id="voiceBtnText">음성으로 설명하기</span>
+      </button>
+      <div class="form-group">
+        <label class="form-label">내용</label>
+        <textarea class="form-textarea" id="entryDesc" placeholder="수정 내용을 입력하세요" rows="4"></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="addEntry()">✓ 항목 저장</button>
+    </div>
+    <div class="section-title">이번 세션 기록 (<span id="entryCount">0</span>건)</div>
+    <div class="entry-list" id="entryList"><div class="empty"><div class="empty-icon">📋</div><div>아직 기록된 항목이 없습니다</div></div></div>
+  </div>
+</div>
+<div class="screen" id="screen-session">
+  <div id="start-session-form">
+    <div class="section-title">새 조립 세션</div>
+    <div class="form-group"><label class="form-label">모델</label>
+      <select class="form-select" id="sessionModel">
+        <option value="T2">T2 (2kg)</option><option value="T7" selected>T7 (7kg)</option><option value="T15">T15 (15kg)</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">시리얼 / 호기</label><input class="form-input" id="sessionSerial" placeholder="예: T7-2025-001 / 2호기"></div>
+    <div class="form-group"><label class="form-label">담당자</label><input class="form-input" id="sessionWorker" placeholder="이름"></div>
+    <div class="form-group"><label class="form-label">비고</label><textarea class="form-textarea" id="sessionNote" placeholder="특이사항, 업그레이드 버전 등"></textarea></div>
+    <button class="btn btn-primary" onclick="startSession()">▶ 세션 시작</button>
+  </div>
+  <div id="end-session-form" style="display:none">
+    <div class="section-title">현재 세션</div>
+    <div class="session-bar active-session" style="margin-bottom:20px">
+      <div class="session-info"><strong id="session-end-label">-</strong><span id="session-end-time">-</span></div>
+      <div class="session-dot recording"></div>
+    </div>
+    <div class="ai-report" id="aiReportArea" style="display:none">
+      <div class="ai-report-title">▸ AI 분석 리포트</div>
+      <div class="ai-report-content" id="aiReportContent"></div>
+    </div>
+    <div class="mt-20 gap-8">
+      <button class="btn btn-outline" onclick="generateReport()">🤖 AI 리포트 생성</button>
+      <button class="btn btn-danger" onclick="endSession()">■ 세션 종료 및 저장</button>
+    </div>
+  </div>
+</div>
+<div class="screen" id="screen-history">
+  <div class="section-title">전체 조립 이력</div>
+  <div class="form-group" style="margin-bottom:12px">
+    <input class="form-input" id="searchInput" placeholder="🔍 키워드 검색 (예: 캐드 도면, 버너, 홀 크기...)" oninput="searchHistory(this.value)" style="font-size:14px">
+  </div>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-chip active" onclick="filterHistory('all',this)">전체</button>
+    <button class="filter-chip" onclick="filterHistory('T2',this)">T2</button>
+    <button class="filter-chip" onclick="filterHistory('T7',this)">T7</button>
+    <button class="filter-chip" onclick="filterHistory('T15',this)">T15</button>
+    <button class="filter-chip" onclick="filterHistory('도면수정',this)">도면수정</button>
+    <button class="filter-chip" onclick="filterHistory('조립순서',this)">조립순서</button>
+    <button class="filter-chip" onclick="filterHistory('부품교체',this)">부품교체</button>
+  </div>
+  <div id="historyList"><div class="empty"><div class="empty-icon">📂</div><div>저장된 세션이 없습니다</div></div></div>
+</div>
+<div class="screen" id="screen-manual">
+  <div class="section-title">작업 매뉴얼 생성</div>
+  <div class="form-group"><label class="form-label">대상 모델</label>
+    <select class="form-select" id="manualModel">
+      <option value="T2">T2</option><option value="T7" selected>T7</option><option value="T15">T15</option><option value="all">전체</option>
+    </select>
+  </div>
+  <div class="form-group"><label class="form-label">포함할 항목</label>
+    <div class="tag-selector" id="manualTagFilter">
+      <button class="tag-btn selected-도면수정" data-tag="도면수정" onclick="toggleManualTag(this)">도면수정</button>
+      <button class="tag-btn selected-조립순서" data-tag="조립순서" onclick="toggleManualTag(this)">조립순서</button>
+      <button class="tag-btn selected-부품교체" data-tag="부품교체" onclick="toggleManualTag(this)">부품교체</button>
+      <button class="tag-btn selected-메모" data-tag="메모" onclick="toggleManualTag(this)">메모</button>
+    </div>
+  </div>
+  <button class="btn btn-primary" onclick="generateManual()">🤖 AI 매뉴얼 생성</button>
+  <div class="ai-report mt-20" id="manualOutput" style="display:none">
+    <div class="ai-report-title">▸ 생성된 매뉴얼</div>
+    <div class="ai-report-content" id="manualContent"></div>
+    <div class="mt-12"><button class="btn btn-outline btn-sm" onclick="copyManual()">📋 클립보드 복사</button></div>
+  </div>
+</div>
+<div class="modal" id="imgModal" onclick="closeModal()">
+  <button class="modal-close">✕</button>
+  <img id="modalImg" src="">
+</div>
+<script>
+let state = {
+  currentSession: null, entries: [], sessions: [], currentPhotos: [],
+  selectedTag: null, isRecording: false, recognition: null,
+  manualSelectedTags: ['도면수정','조립순서','부품교체','메모'],
+};
+const CLIENT_ID = '952808780758-hhsvtcmj43j455mduf471ppjnr702ug3.apps.googleusercontent.com';
+const FILE_NAME = 'trinitas_assembly_data.json';
+let gToken = null, gFileId = null;
+
+loadData(); updateUI(); initGoogle();
+
+function loadData() {
+  try { const s = localStorage.getItem('trinitas_sessions'); if (s) state.sessions = JSON.parse(s); } catch(e) {}
+}
+function saveData() {
+  try { localStorage.setItem('trinitas_sessions', JSON.stringify(state.sessions)); saveToDrive(state.sessions); }
+  catch(e) { try { localStorage.setItem('trinitas_sessions', JSON.stringify(state.sessions.map(s=>({...s,entries:s.entries.map(e=>({...e,photos:[]}))})))); } catch(e2) { alert('저장 실패'); } }
+}
+function initGoogle() {
+  let attempts = 0;
+  const t = setInterval(() => {
+    attempts++;
+    if (typeof google !== 'undefined' && google.accounts) {
+      clearInterval(t);
+      const btn = document.getElementById('googleBtn');
+      if (btn) { btn.textContent = '☁ 로그인'; btn.disabled = false; }
+      const saved = sessionStorage.getItem('g_token');
+      if (saved) { gToken = saved; setGBtn(true); setSyncBar('ok','☁ 구글 드라이브 연동됨 · 동기화 중...'); loadFromDrive(); }
+    } else if (attempts > 30) {
+      clearInterval(t);
+      const btn = document.getElementById('googleBtn');
+      if (btn) { btn.textContent = '☁ 로그인'; btn.disabled = false; }
+      setSyncBar('err','⚠ 구글 스크립트 로딩 실패 · 새로고침 후 시도');
+    }
+  }, 500);
+}
+function handleGoogleLogin() {
+  if (gToken) { gToken=null; gFileId=null; sessionStorage.removeItem('g_token'); setGBtn(false); setSyncBar('','☁ 로컬 저장 중 · 구글 드라이브 미연동'); return; }
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID, scope: 'https://www.googleapis.com/auth/drive.file',
+    callback: async (resp) => {
+      if (resp.error) { setSyncBar('err','⚠ 로그인 실패'); return; }
+      gToken = resp.access_token; sessionStorage.setItem('g_token', gToken);
+      setGBtn(true); setSyncBar('ok','☁ 구글 드라이브 연동됨 · 동기화 중...'); await loadFromDrive();
+    }
+  });
+  client.requestAccessToken();
+}
+function setGBtn(on) { const b=document.getElementById('googleBtn'); if(!b)return; b.textContent=on?'☁ 연동됨':'☁ 로그인'; b.style.color=on?'#4db8ff':''; b.style.borderColor=on?'#4db8ff':''; }
+function setSyncBar(cls,msg) { const b=document.getElementById('syncBar'); if(!b)return; b.className='sync-bar'+(cls?' '+cls:''); b.textContent=msg; }
+async function findDriveFile() {
+  const r = await fetch(`https://www.googleapis.com/drive/v3/files?q=name='${FILE_NAME}'+and+trashed=false&fields=files(id)`,{headers:{Authorization:'Bearer '+gToken}});
+  const d = await r.json(); return d.files&&d.files.length>0?d.files[0].id:null;
+}
+async function loadFromDrive() {
+  if (!gToken) return;
+  try {
+    gFileId = await findDriveFile();
+    if (!gFileId) { setSyncBar('ok','☁ 구글 드라이브 연동됨 · 새 파일 생성 예정'); return; }
+    const r = await fetch(`https://www.googleapis.com/drive/v3/files/${gFileId}?alt=media`,{headers:{Authorization:'Bearer '+gToken}});
+    const data = await r.json();
+    if (data&&Array.isArray(data)) { state.sessions=data; updateUI(); }
+    setSyncBar('ok','☁ 구글 드라이브 동기화 완료 · '+formatTime(new Date().toISOString()));
+  } catch(e) { setSyncBar('err','⚠ 드라이브 로드 실패 · 로컬 데이터 사용 중'); }
+}
+async function saveToDrive(data) {
+  if (!gToken) return;
+  try {
+    const blob = new Blob([JSON.stringify(data)],{type:'application/json'});
+    if (gFileId) {
+      await fetch(`https://www.googleapis.com/upload/drive/v3/files/${gFileId}?uploadType=media`,{method:'PATCH',headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},body:blob});
+    } else {
+      const meta = await fetch('https://www.googleapis.com/drive/v3/files',{method:'POST',headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},body:JSON.stringify({name:FILE_NAME,mimeType:'application/json'})});
+      const m = await meta.json(); gFileId = m.id;
+      await fetch(`https://www.googleapis.com/upload/drive/v3/files/${gFileId}?uploadType=media`,{method:'PATCH',headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},body:blob});
+    }
+    setSyncBar('ok','☁ 구글 드라이브 저장 완료 · '+formatTime(new Date().toISOString()));
+  } catch(e) { setSyncBar('err','⚠ 드라이브 저장 실패 · 로컬에만 저장됨'); }
+}
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  const map={record:0,session:1,history:2,manual:3};
+  document.querySelectorAll('.nav-btn')[map[name]].classList.add('active');
+  if (name==='history') renderHistory('all');
+}
+function startSession() {
+  const model=document.getElementById('sessionModel').value, serial=document.getElementById('sessionSerial').value||'-', worker=document.getElementById('sessionWorker').value||'-', note=document.getElementById('sessionNote').value;
+  state.currentSession={id:Date.now(),model,serial,worker,note,startTime:new Date().toISOString(),endTime:null,entries:[],aiReport:''};
+  state.entries=[]; updateUI(); showScreen('record');
+}
+function endSession() {
+  if (!state.currentSession){alert('진행중인 세션이 없습니다.');return;}
+  if (!confirm('세션을 종료하고 저장하시겠습니까?')) return;
+  try {
+    state.currentSession.endTime=new Date().toISOString();
+    state.currentSession.entries=JSON.parse(JSON.stringify(state.entries));
+    const r=document.getElementById('aiReportContent'); if(r&&r.textContent) state.currentSession.aiReport=r.textContent;
+    const s=JSON.parse(JSON.stringify(state.currentSession)); state.sessions.unshift(s); saveData();
+    alert('저장 완료! 항목 '+s.entries.length+'건이 저장됐습니다.');
+  } catch(e){alert('저장 오류: '+e.message);return;}
+  state.currentSession=null; state.entries=[]; state.currentPhotos=[]; state.selectedTag=null;
+  const a=document.getElementById('aiReportArea'),c=document.getElementById('aiReportContent');
+  if(a)a.style.display='none'; if(c)c.textContent='';
+  updateUI(); showScreen('history');
+}
+function selectTag(btn) {
+  document.querySelectorAll('.tag-btn').forEach(b=>b.className='tag-btn');
+  btn.classList.add('selected-'+btn.dataset.tag); state.selectedTag=btn.dataset.tag;
+}
+function triggerPhoto(){document.getElementById('photoInputGallery').click();}
+function triggerCamera(){document.getElementById('photoInputCamera').click();}
+function triggerGallery(){document.getElementById('photoInputGallery').click();}
+function handlePhotos(input) {
+  Array.from(input.files).forEach(file=>{const r=new FileReader();r.onload=e=>{state.currentPhotos.push(e.target.result);renderPhotoThumbs();};r.readAsDataURL(file);});
+  input.value='';
+}
+function renderPhotoThumbs() {
+  const grid=document.getElementById('photoThumbGrid'); grid.innerHTML='';
+  state.currentPhotos.forEach((src,i)=>{const d=document.createElement('div');d.className='photo-thumb';d.innerHTML=`<img src="${src}" onclick="openModal('${src}')"><button class="photo-thumb-del" onclick="removePhoto(${i})">✕</button>`;grid.appendChild(d);});
+  const add=document.createElement('div');add.className='add-photo-cell';add.textContent='＋';add.onclick=triggerPhoto;grid.appendChild(add);
+}
+function removePhoto(i){state.currentPhotos.splice(i,1);renderPhotoThumbs();}
+function addEntry() {
+  const desc=document.getElementById('entryDesc').value.trim();
+  if(!desc&&state.currentPhotos.length===0){alert('내용 또는 사진을 추가해주세요.');return;}
+  if(!state.selectedTag){alert('분류를 선택해주세요.');return;}
+  state.entries.unshift({id:Date.now(),tag:state.selectedTag,desc,photos:[...state.currentPhotos],time:new Date().toISOString()});
+  document.getElementById('entryDesc').value=''; state.currentPhotos=[]; state.selectedTag=null;
+  document.querySelectorAll('.tag-btn').forEach(b=>b.className='tag-btn');
+  renderPhotoThumbs(); renderEntries();
+}
+function deleteEntry(id){if(!confirm('삭제하시겠습니까?'))return;state.entries=state.entries.filter(e=>e.id!==id);renderEntries();}
+function renderEntries() {
+  const list=document.getElementById('entryList');
+  document.getElementById('entryCount').textContent=state.entries.length;
+  if(state.entries.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div>아직 기록된 항목이 없습니다</div></div>';return;}
+  list.innerHTML=state.entries.map(e=>`<div class="entry-card"><div class="entry-card-header"><span class="entry-tag tag-${e.tag}">${e.tag}</span><div style="display:flex;align-items:center;gap:8px"><span class="entry-time">${formatTime(e.time)}</span><button class="entry-del-btn" onclick="deleteEntry(${e.id})">✕</button></div></div><div class="entry-card-body">${e.desc?`<div class="entry-desc">${e.desc}</div>`:''}${e.photos.length>0?`<div class="entry-photos">${e.photos.map(p=>`<img src="${p}" onclick="openModal('${p}')">`).join('')}</div>`:''}</div></div>`).join('');
+}
+function toggleVoice() {
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){alert('Safari 또는 Chrome을 사용해주세요.');return;}
+  if(state.isRecording){state.recognition&&state.recognition.stop();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  state.recognition=new SR(); state.recognition.lang='ko-KR'; state.recognition.continuous=true; state.recognition.interimResults=true;
+  state.recognition.onstart=()=>{state.isRecording=true;const b=document.getElementById('voiceBtn');b.classList.add('recording');document.getElementById('voiceBtnText').textContent='녹음 중... (탭하여 중지)';document.getElementById('voiceBtnIcon').innerHTML='<div class="voice-indicator"><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div></div>';};
+  state.recognition.onresult=(event)=>{let t='';for(let i=0;i<event.results.length;i++)t+=event.results[i][0].transcript;document.getElementById('entryDesc').value=t;};
+  state.recognition.onend=()=>{state.isRecording=false;const b=document.getElementById('voiceBtn');b.classList.remove('recording');document.getElementById('voiceBtnText').textContent='음성으로 설명하기';document.getElementById('voiceBtnIcon').textContent='🎙';};
+  state.recognition.start();
+}
+async function generateReport() {
+  if(state.entries.length===0){alert('기록된 항목이 없습니다.');return;}
+  const ra=document.getElementById('aiReportArea'),rc=document.getElementById('aiReportContent');
+  ra.style.display='block'; rc.innerHTML='<div class="ai-loading"><div class="spinner"></div>AI가 분석 중입니다...</div>';
+  const s=state.currentSession;
+  const prompt=`커피 로스터기 제조 전문가로서 TRINITAS ${s.model} 조립 수정사항을 분석하여 보고서를 작성해주세요.\n모델:${s.model} 시리얼:${s.serial} 일시:${formatDate(s.startTime)} 담당:${s.worker}\n수정사항:\n${state.entries.map((e,i)=>`${i+1}.[${e.tag}] ${e.desc||'(텍스트없음)'}`).join('\n')}\n\n1.요약 2.도면수정 3.조립순서주의 4.부품교체 5.메모 6.다음조립시반영사항 순으로 작성`;
+  try {
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await resp.json(); rc.textContent=data.content?.find(c=>c.type==='text')?.text||'분석 실패';
+  } catch(e){rc.textContent='오류가 발생했습니다.';}
+}
+function renderHistory(filter) {
+  const list=document.getElementById('historyList');
+  let sessions=[...state.sessions];
+  if(filter!=='all'){const tags=['도면수정','조립순서','부품교체','메모'];sessions=tags.includes(filter)?sessions.filter(s=>s.entries.some(e=>e.tag===filter)):sessions.filter(s=>s.model===filter);}
+  if(sessions.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">📂</div><div>해당 조건의 세션이 없습니다</div></div>';return;}
+  list.innerHTML=sessions.map(s=>{
+    const tc={};s.entries.forEach(e=>{tc[e.tag]=(tc[e.tag]||0)+1;});
+    const badges=Object.entries(tc).map(([t,c])=>`<span class="entry-tag tag-${t}" style="font-size:10px;padding:2px 8px">${t} ${c}</span>`).join('');
+    const eh=s.entries.map(e=>`<div class="entry-card" style="margin-bottom:8px"><div class="entry-card-header"><span class="entry-tag tag-${e.tag}">${e.tag}</span><span class="entry-time">${formatTime(e.time)}</span></div><div class="entry-card-body">${e.desc?`<div class="entry-desc">${e.desc}</div>`:''}${e.photos.length>0?`<div class="entry-photos">${e.photos.map(p=>`<img src="${p}" onclick="openModal('${p}')">`).join('')}</div>`:''}</div></div>`).join('');
+    const ah=s.aiReport?`<div class="ai-report" style="margin-top:12px"><div class="ai-report-title">▸ AI 분석 리포트</div><div class="ai-report-content">${s.aiReport}</div></div>`:'';
+    return `<div class="session-card"><div class="session-card-header" onclick="toggleSession(this)"><div><div style="font-weight:600;font-size:15px">${s.model} · ${s.serial}</div><div class="session-meta">${formatDate(s.startTime)} · ${s.worker}</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${badges}</div></div><span class="count-badge">${s.entries.length}건</span></div><div class="session-card-body">${eh}${ah}<div class="mt-12"><button class="btn btn-outline btn-sm" onclick="deleteSession(${s.id})">🗑 세션 삭제</button></div></div></div>`;
+  }).join('');
+}
+function toggleSession(h){h.nextElementSibling.classList.toggle('open');}
+function filterHistory(filter,chip){document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));chip.classList.add('active');renderHistory(filter);}
+function searchHistory(keyword) {
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  if(!keyword.trim()){document.querySelector('.filter-chip').classList.add('active');renderHistory('all');return;}
+  const kw=keyword.trim().toLowerCase(), list=document.getElementById('historyList');
+  const matched=state.sessions.filter(s=>s.entries.some(e=>e.desc&&e.desc.toLowerCase().includes(kw))||s.model.toLowerCase().includes(kw)||s.serial.toLowerCase().includes(kw)||(s.note&&s.note.toLowerCase().includes(kw)));
+  if(matched.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><div>검색 결과가 없습니다</div></div>';return;}
+  list.innerHTML=matched.map(s=>{
+    const me=s.entries.filter(e=>e.desc&&e.desc.toLowerCase().includes(kw));
+    const tc={};s.entries.forEach(e=>{tc[e.tag]=(tc[e.tag]||0)+1;});
+    const badges=Object.entries(tc).map(([t,c])=>`<span class="entry-tag tag-${t}" style="font-size:10px;padding:2px 8px">${t} ${c}</span>`).join('');
+    const eh=me.map(e=>{const hl=e.desc.replace(new RegExp(kw,'gi'),m=>`<mark style="background:#ffc300;color:#000;border-radius:2px;padding:0 2px">${m}</mark>`);return `<div class="entry-card" style="margin-bottom:8px"><div class="entry-card-header"><span class="entry-tag tag-${e.tag}">${e.tag}</span><span class="entry-time">${formatTime(e.time)}</span></div><div class="entry-card-body"><div class="entry-desc">${hl}</div></div></div>`;}).join('');
+    return `<div class="session-card"><div class="session-card-header" onclick="toggleSession(this)"><div><div style="font-weight:600;font-size:15px">${s.model} · ${s.serial}</div><div class="session-meta">${formatDate(s.startTime)} · ${s.worker}</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${badges}</div></div><span class="count-badge" style="color:#ffc300">${me.length}건 매칭</span></div><div class="session-card-body open">${eh}</div></div>`;
+  }).join('');
+}
+function deleteSession(id){if(!confirm('이 세션을 삭제하시겠습니까?'))return;state.sessions=state.sessions.filter(s=>s.id!==id);saveData();renderHistory('all');}
+function toggleManualTag(btn){const tag=btn.dataset.tag,idx=state.manualSelectedTags.indexOf(tag);if(idx>-1){state.manualSelectedTags.splice(idx,1);btn.className='tag-btn';}else{state.manualSelectedTags.push(tag);btn.classList.add('selected-'+tag);}}
+async function generateManual() {
+  const model=document.getElementById('manualModel').value, tags=state.manualSelectedTags;
+  if(tags.length===0){alert('포함할 항목을 선택해주세요.');return;}
+  let sessions=state.sessions; if(model!=='all')sessions=sessions.filter(s=>s.model===model);
+  const allEntries=sessions.flatMap(s=>s.entries.filter(e=>tags.includes(e.tag)).map(e=>({...e,model:s.model,serial:s.serial,date:s.startTime})));
+  if(allEntries.length===0){alert('해당 조건의 기록이 없습니다.');return;}
+  const out=document.getElementById('manualOutput'),con=document.getElementById('manualContent');
+  out.style.display='block'; con.innerHTML='<div class="ai-loading"><div class="spinner"></div>매뉴얼을 생성 중입니다...</div>';
+  const prompt=`커피 로스터기 제조 전문가로서 TRINITAS ${model==='all'?'전모델':model} 조립 이력을 바탕으로 작업 매뉴얼을 작성해주세요.\n\n이력:\n${allEntries.map((e,i)=>`${i+1}.[${e.tag}][${e.model}·${e.serial}] ${e.desc||''}`).join('\n')}\n\n1.도면수정이력 2.조립순서주의사항(체크리스트) 3.부품교체이력 4.작업팁 순으로 작성. 반복이슈통합, 중요도순 정렬`;
+  try {
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await resp.json(); con.textContent=data.content?.find(c=>c.type==='text')?.text||'생성 실패';
+  } catch(e){con.textContent='오류가 발생했습니다.';}
+}
+function copyManual(){navigator.clipboard.writeText(document.getElementById('manualContent').textContent).then(()=>alert('클립보드에 복사되었습니다.'));}
+function updateUI() {
+  const h=!!state.currentSession;
+  document.getElementById('no-session').style.display=h?'none':'block';
+  document.getElementById('active-session-ui').style.display=h?'block':'none';
+  document.getElementById('start-session-form').style.display=h?'none':'block';
+  document.getElementById('end-session-form').style.display=h?'block':'none';
+  document.getElementById('sessionDot').className='session-dot'+(h?' recording':'');
+  if(h){const l=`${state.currentSession.model} · ${state.currentSession.serial}`,t=formatDate(state.currentSession.startTime);document.getElementById('active-session-label').textContent=l;document.getElementById('active-session-time').textContent=t;document.getElementById('session-end-label').textContent=l;document.getElementById('session-end-time').textContent=t;}
+  renderEntries(); renderPhotoThumbs();
+}
+function openModal(src){document.getElementById('modalImg').src=src;document.getElementById('imgModal').classList.add('open');}
+function closeModal(){document.getElementById('imgModal').classList.remove('open');}
+function formatDate(iso){if(!iso)return'-';const d=new Date(iso);return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;}
+function formatTime(iso){if(!iso)return'-';const d=new Date(iso);return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
+</script>
+</body>
+</html>
