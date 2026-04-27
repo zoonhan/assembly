@@ -119,21 +119,21 @@
 <div class="header">
   <div><div class="header-logo">TRINITAS</div><div class="header-sub">ASSEMBLY LOG</div></div>
   <div class="header-right">
-    <button id="googleBtn" onclick="handleGoogleLogin()" style="background:none;border:1px solid var(--border);color:var(--text2);font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:IBM Plex Mono,monospace;" disabled>☁ 로딩중...</button>
+    <button id="googleBtn" onclick="handleGoogleLogin()" style="background:none;border:1px solid var(--border);color:var(--text2);font-size:11px;padding:5px 10px;border-radius:6px;cursor:pointer;font-family:IBM Plex Mono,monospace;" disabled>&#x2601; &#xB85C;&#xB529;&#xC911;...</button>
     <div class="session-dot" id="sessionDot"></div>
   </div>
 </div>
 <div class="nav">
-  <button class="nav-btn active" onclick="showScreen('record')">기록</button>
-  <button class="nav-btn" onclick="showScreen('session')">세션</button>
-  <button class="nav-btn" onclick="showScreen('history')">이력</button>
-  <button class="nav-btn" onclick="showScreen('manual')">매뉴얼</button>
+  <button class="nav-btn active" onclick="showScreen('record')">&#xAE30;&#xB85D;</button>
+  <button class="nav-btn" onclick="showScreen('session')">&#xC138;&#xC158;</button>
+  <button class="nav-btn" onclick="showScreen('history')">&#xC774;&#xB825;</button>
+  <button class="nav-btn" onclick="showScreen('manual')">&#xB9E4;&#xB274;&#xC5BC;</button>
 </div>
 <div class="screen active" id="screen-record">
-  <div class="sync-bar" id="syncBar">☁ 로컬 저장 중 · 구글 드라이브 미연동</div>
+  <div class="sync-bar" id="syncBar">&#x2601; &#xB85C;&#xCEEC; &#xC800;&#xC7A5; &#xC911; &middot; &#xAD6C;&#xAE00; &#xB4DC;&#xB77C;&#xC774;&#xBE0C; &#xBBF8;&#xC5F0;&#xB3D9;</div>
   <div id="no-session">
-    <div class="empty"><div class="empty-icon">🔧</div><div>진행중인 조립 세션이 없습니다<br>세션을 시작해주세요</div></div>
-    <button class="btn btn-primary" onclick="showScreen('session')">＋ 새 세션 시작</button>
+    <div class="empty"><div class="empty-icon">&#x1F527;</div><div>&#xC9C4;&#xD589;&#xC911;&#xC778; &#xC870;&#xB9BD; &#xC138;&#xC158;&#xC774; &#xC5C6;&#xC2B5;&#xB2C8;&#xB2E4;<br>&#xC138;&#xC158;&#xC744; &#xC2DC;&#xC791;&#xD574;&#xC8FC;&#xC138;&#xC694;</div></div>
+    <button class="btn btn-primary" onclick="showScreen('session')">&#xFF0B; &#xC0C8; &#xC138;&#xC158; &#xC2DC;&#xC791;</button>
   </div>
   <div id="active-session-ui" style="display:none">
     <div class="session-bar active-session">
@@ -141,112 +141,112 @@
       <div class="session-dot recording"></div>
     </div>
     <div class="record-panel">
-      <div class="record-panel-title">수정사항 추가</div>
+      <div class="record-panel-title">&#xC218;&#xC815;&#xC0AC;&#xD56D; &#xCD94;&#xAC00;</div>
       <div class="tag-selector">
-        <button class="tag-btn" data-tag="도면수정" onclick="selectTag(this)">도면수정</button>
-        <button class="tag-btn" data-tag="조립순서" onclick="selectTag(this)">조립순서</button>
-        <button class="tag-btn" data-tag="부품변경" onclick="selectTag(this)">부품변경</button>
-        <button class="tag-btn" data-tag="아이디어" onclick="selectTag(this)">아이디어</button>
-        <button class="tag-btn" data-tag="메모" onclick="selectTag(this)">메모</button>
+        <button class="tag-btn" data-tag="&#xB3C4;&#xBA74;&#xC218;&#xC815;" onclick="selectTag(this)">&#xB3C4;&#xBA74;&#xC218;&#xC815;</button>
+        <button class="tag-btn" data-tag="&#xC870;&#xB9BD;&#xC21C;&#xC11C;" onclick="selectTag(this)">&#xC870;&#xB9BD;&#xC21C;&#xC11C;</button>
+        <button class="tag-btn" data-tag="&#xBD80;&#xD488;&#xBCC0;&#xACBD;" onclick="selectTag(this)">&#xBD80;&#xD488;&#xBCC0;&#xACBD;</button>
+        <button class="tag-btn" data-tag="&#xC544;&#xC774;&#xB514;&#xC5B4;" onclick="selectTag(this)">&#xC544;&#xC774;&#xB514;&#xC5B4;</button>
+        <button class="tag-btn" data-tag="&#xBA54;&#xBAA8;" onclick="selectTag(this)">&#xBA54;&#xBAA8;</button>
       </div>
-      <div class="photo-thumb-grid" id="photoThumbGrid"><div class="add-photo-cell" onclick="triggerPhoto()">＋</div></div>
+      <div class="photo-thumb-grid" id="photoThumbGrid"><div class="add-photo-cell" onclick="triggerPhoto()">&#xFF0B;</div></div>
       <div class="flex-row" style="margin-bottom:12px">
-        <button class="btn btn-outline btn-sm" onclick="triggerCamera()" style="flex:1">📷 촬영</button>
-        <button class="btn btn-outline btn-sm" onclick="triggerGallery()" style="flex:1">🖼 갤러리</button>
+        <button class="btn btn-outline btn-sm" onclick="triggerCamera()" style="flex:1">&#x1F4F7; &#xCC2C;&#xC601;</button>
+        <button class="btn btn-outline btn-sm" onclick="triggerGallery()" style="flex:1">&#x1F5BC; &#xAE64;&#xB7EC;&#xB9AC;</button>
       </div>
       <input type="file" id="photoInputCamera" accept="image/*" capture="environment" multiple onchange="handlePhotos(this)">
       <input type="file" id="photoInputGallery" accept="image/*" multiple onchange="handlePhotos(this)">
       <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
-        <span id="voiceBtnIcon">🎙</span><span id="voiceBtnText">음성으로 설명하기</span>
+        <span id="voiceBtnIcon">&#x1F399;</span><span id="voiceBtnText">&#xC74C;&#xC131;&#xC73C;&#xB85C; &#xC124;&#xBA85;&#xD558;&#xAE30;</span>
       </button>
       <div class="form-group">
-        <label class="form-label">내용</label>
-        <textarea class="form-textarea" id="entryDesc" placeholder="수정 내용을 입력하세요" rows="4"></textarea>
+        <label class="form-label">&#xB0B4;&#xC6A9;</label>
+        <textarea class="form-textarea" id="entryDesc" placeholder="&#xC218;&#xC815; &#xB0B4;&#xC6A9;&#xC744; &#xC785;&#xB825;&#xD558;&#xC138;&#xC694;" rows="4"></textarea>
       </div>
-      <button class="btn btn-primary" onclick="addEntry()">✓ 항목 저장</button>
+      <button class="btn btn-primary" onclick="addEntry()">&#x2713; &#xD56D;&#xBAA9; &#xC800;&#xC7A5;</button>
     </div>
-    <div class="section-title">이번 세션 기록 (<span id="entryCount">0</span>건)</div>
-    <div class="entry-list" id="entryList"><div class="empty"><div class="empty-icon">📋</div><div>아직 기록된 항목이 없습니다</div></div></div>
+    <div class="section-title">&#xC774;&#xBC88; &#xC138;&#xC158; &#xAE30;&#xB85D; (<span id="entryCount">0</span>&#xAC74;)</div>
+    <div class="entry-list" id="entryList"><div class="empty"><div class="empty-icon">&#x1F4CB;</div><div>&#xC544;&#xC9C1; &#xAE30;&#xB85D;&#xB41C; &#xD56D;&#xBAA9;&#xC774; &#xC5C6;&#xC2B5;&#xB2C8;&#xB2E4;</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-session">
   <div id="start-session-form">
-    <div class="section-title">새 조립 세션</div>
-    <div class="form-group"><label class="form-label">모델</label>
+    <div class="section-title">&#xC0C8; &#xC870;&#xB9BD; &#xC138;&#xC158;</div>
+    <div class="form-group"><label class="form-label">&#xBAA8;&#xB378;</label>
       <select class="form-select" id="sessionModel">
         <option value="T2">T2 (2kg)</option><option value="T7" selected>T7 (7kg)</option><option value="T15">T15 (15kg)</option>
       </select>
     </div>
-    <div class="form-group"><label class="form-label">시리얼 / 호기</label><input class="form-input" id="sessionSerial" placeholder="예: T7-2025-001 / 2호기"></div>
-    <div class="form-group"><label class="form-label">담당자</label><input class="form-input" id="sessionWorker" placeholder="이름"></div>
-    <div class="form-group"><label class="form-label">비고</label><textarea class="form-textarea" id="sessionNote" placeholder="특이사항, 업그레이드 버전 등"></textarea></div>
-    <button class="btn btn-primary" onclick="startSession()">▶ 세션 시작</button>
+    <div class="form-group"><label class="form-label">&#xC2DC;&#xB9AC;&#xC5BC; / &#xD638;&#xAE30;</label><input class="form-input" id="sessionSerial" placeholder="&#xC608;: T7-2025-001 / 2&#xD638;&#xAE30;"></div>
+    <div class="form-group"><label class="form-label">&#xB2F4;&#xB2F9;&#xC790;</label><input class="form-input" id="sessionWorker" placeholder="&#xC774;&#xB984;"></div>
+    <div class="form-group"><label class="form-label">&#xBE44;&#xACE0;</label><textarea class="form-textarea" id="sessionNote" placeholder="&#xD2B9;&#xC774;&#xC0AC;&#xD56D;, &#xC5C5;&#xADF8;&#xB808;&#xC774;&#xB4DC; &#xBC84;&#xC804; &#xB4F1;"></textarea></div>
+    <button class="btn btn-primary" onclick="startSession()">&#x25B6; &#xC138;&#xC158; &#xC2DC;&#xC791;</button>
   </div>
   <div id="end-session-form" style="display:none">
-    <div class="section-title">현재 세션</div>
+    <div class="section-title">&#xD604;&#xC7AC; &#xC138;&#xC158;</div>
     <div class="session-bar active-session" style="margin-bottom:20px">
       <div class="session-info"><strong id="session-end-label">-</strong><span id="session-end-time">-</span></div>
       <div class="session-dot recording"></div>
     </div>
     <div class="ai-report" id="aiReportArea" style="display:none">
-      <div class="ai-report-title">▸ AI 분석 리포트</div>
+      <div class="ai-report-title">&#x25B8; AI &#xBD84;&#xC11D; &#xB9AC;&#xD3EC;&#xD2B8;</div>
       <div class="ai-report-content" id="aiReportContent"></div>
     </div>
     <div class="mt-20 gap-8">
-      <button class="btn btn-outline" onclick="generateReport()">🤖 AI 리포트 생성</button>
-      <button class="btn btn-danger" onclick="endSession()">■ 세션 종료 및 저장</button>
+      <button class="btn btn-outline" onclick="generateReport()">&#x1F916; AI &#xB9AC;&#xD3EC;&#xD2B8; &#xC0DD;&#xC131;</button>
+      <button class="btn btn-danger" onclick="endSession()">&#x25A0; &#xC138;&#xC158; &#xC885;&#xB8CC; &#xBC0F; &#xC800;&#xC7A5;</button>
     </div>
   </div>
 </div>
 <div class="screen" id="screen-history">
-  <div class="section-title">전체 조립 이력</div>
+  <div class="section-title">&#xC804;&#xCCB4; &#xC870;&#xB9BD; &#xC774;&#xB825;</div>
   <div class="form-group" style="margin-bottom:12px">
-    <input class="form-input" id="searchInput" placeholder="🔍 다중 키워드 검색 (예: T7 탭 수정)" oninput="searchHistory(this.value)" style="font-size:14px">
+    <input class="form-input" id="searchInput" placeholder="&#x1F50D; &#xB2E4;&#xC911; &#xD0A4;&#xC6CC;&#xB4DC; &#xAC80;&#xC0C9; (&#xC608;: T7 &#xD0ED; &#xC218;&#xC815;)" oninput="searchHistory(this.value)" style="font-size:14px">
   </div>
   <div class="filter-bar" id="filterBar">
-    <button class="filter-chip active" onclick="filterHistory('all',this)">전체</button>
+    <button class="filter-chip active" onclick="filterHistory('all',this)">&#xC804;&#xCCB4;</button>
     <button class="filter-chip" onclick="filterHistory('T2',this)">T2</button>
     <button class="filter-chip" onclick="filterHistory('T7',this)">T7</button>
     <button class="filter-chip" onclick="filterHistory('T15',this)">T15</button>
-    <button class="filter-chip" onclick="filterHistory('도면수정',this)">도면수정</button>
-    <button class="filter-chip" onclick="filterHistory('조립순서',this)">조립순서</button>
-    <button class="filter-chip" onclick="filterHistory('부품변경',this)">부품변경</button>
-    <button class="filter-chip" onclick="filterHistory('아이디어',this)">아이디어</button>
+    <button class="filter-chip" onclick="filterHistory('도면수정',this)">&#xB3C4;&#xBA74;&#xC218;&#xC815;</button>
+    <button class="filter-chip" onclick="filterHistory('조립순서',this)">&#xC870;&#xB9BD;&#xC21C;&#xC11C;</button>
+    <button class="filter-chip" onclick="filterHistory('부품변경',this)">&#xBD80;&#xD488;&#xBCC0;&#xACBD;</button>
+    <button class="filter-chip" onclick="filterHistory('아이디어',this)">&#xC544;&#xC774;&#xB514;&#xC5B4;</button>
   </div>
-  <div id="historyList"><div class="empty"><div class="empty-icon">📂</div><div>저장된 세션이 없습니다</div></div></div>
+  <div id="historyList"><div class="empty"><div class="empty-icon">&#x1F4C2;</div><div>&#xC800;&#xC7A5;&#xB41C; &#xC138;&#xC158;&#xC774; &#xC5C6;&#xC2B5;&#xB2C8;&#xB2E4;</div></div></div>
 </div>
 <div class="screen" id="screen-manual">
-  <div class="section-title">작업 매뉴얼 생성</div>
-  <div class="form-group"><label class="form-label">대상 모델</label>
+  <div class="section-title">&#xC791;&#xC5C5; &#xB9E4;&#xB274;&#xC5BC; &#xC0DD;&#xC131;</div>
+  <div class="form-group"><label class="form-label">&#xB300;&#xC0C1; &#xBAA8;&#xB378;</label>
     <select class="form-select" id="manualModel">
-      <option value="T2">T2</option><option value="T7" selected>T7</option><option value="T15">T15</option><option value="all">전체</option>
+      <option value="T2">T2</option><option value="T7" selected>T7</option><option value="T15">T15</option><option value="all">&#xC804;&#xCCB4;</option>
     </select>
   </div>
-  <div class="form-group"><label class="form-label">포함할 항목</label>
+  <div class="form-group"><label class="form-label">&#xD3EC;&#xD568;&#xD560; &#xD56D;&#xBAA9;</label>
     <div class="tag-selector" id="manualTagFilter">
-      <button class="tag-btn selected-도면수정" data-tag="도면수정" onclick="toggleManualTag(this)">도면수정</button>
-      <button class="tag-btn selected-조립순서" data-tag="조립순서" onclick="toggleManualTag(this)">조립순서</button>
-      <button class="tag-btn selected-부품변경" data-tag="부품변경" onclick="toggleManualTag(this)">부품변경</button>
-      <button class="tag-btn selected-아이디어" data-tag="아이디어" onclick="toggleManualTag(this)">아이디어</button>
-      <button class="tag-btn selected-메모" data-tag="메모" onclick="toggleManualTag(this)">메모</button>
+      <button class="tag-btn selected-도면수정" data-tag="도면수정" onclick="toggleManualTag(this)">&#xB3C4;&#xBA74;&#xC218;&#xC815;</button>
+      <button class="tag-btn selected-조립순서" data-tag="조립순서" onclick="toggleManualTag(this)">&#xC870;&#xB9BD;&#xC21C;&#xC11C;</button>
+      <button class="tag-btn selected-부품변경" data-tag="부품변경" onclick="toggleManualTag(this)">&#xBD80;&#xD488;&#xBCC0;&#xACBD;</button>
+      <button class="tag-btn selected-아이디어" data-tag="아이디어" onclick="toggleManualTag(this)">&#xC544;&#xC774;&#xB514;&#xC5B4;</button>
+      <button class="tag-btn selected-메모" data-tag="메모" onclick="toggleManualTag(this)">&#xBA54;&#xBAA8;</button>
     </div>
   </div>
-  <button class="btn btn-primary" onclick="generateManual()">🤖 AI 매뉴얼 생성</button>
+  <button class="btn btn-primary" onclick="generateManual()">&#x1F916; AI &#xB9E4;&#xB274;&#xC5BC; &#xC0DD;&#xC131;</button>
   <div class="ai-report mt-20" id="manualOutput" style="display:none">
-    <div class="ai-report-title">▸ 생성된 매뉴얼</div>
+    <div class="ai-report-title">&#x25B8; &#xC0DD;&#xC131;&#xB41C; &#xB9E4;&#xB274;&#xC5BC;</div>
     <div class="ai-report-content" id="manualContent"></div>
-    <div class="mt-12"><button class="btn btn-outline btn-sm" onclick="copyManual()">📋 클립보드 복사</button></div>
+    <div class="mt-12"><button class="btn btn-outline btn-sm" onclick="copyManual()">&#x1F4CB; &#xD074;&#xB9BD;&#xBCF4;&#xB4DC; &#xBCF5;&#xC0AC;</button></div>
   </div>
 </div>
 <div class="modal" id="imgModal" onclick="closeModal()">
-  <button class="modal-close">✕</button>
+  <button class="modal-close">&#x2715;</button>
   <img id="modalImg" src="">
 </div>
 <script>
 let state = {
   currentSession: null, entries: [], sessions: [], currentPhotos: [],
   selectedTag: null, isRecording: false, recognition: null,
-  manualSelectedTags: ['도면수정','조립순서','부품변경','아이디어','메모'],
+  manualSelectedTags: ['\uB3C4\uBA74\uC218\uC815','\uC870\uB9BD\uC21C\uC11C','\uBD80\uD488\uBCC0\uACBD','\uC544\uC774\uB514\uC5B4','\uBA54\uBAA8'],
 };
 const CLIENT_ID = '952808780758-hhsvtcmj43j455mduf471ppjnr702ug3.apps.googleusercontent.com';
 const FILE_NAME = 'trinitas_assembly_data.json';
@@ -259,7 +259,7 @@ function loadData() {
 }
 function saveData() {
   try { localStorage.setItem('trinitas_sessions', JSON.stringify(state.sessions)); saveToDrive(state.sessions); }
-  catch(e) { try { localStorage.setItem('trinitas_sessions', JSON.stringify(state.sessions.map(s=>({...s,entries:s.entries.map(e=>({...e,photos:[]}))})))); } catch(e2) { alert('저장 실패'); } }
+  catch(e) { try { localStorage.setItem('trinitas_sessions', JSON.stringify(state.sessions.map(s=>({...s,entries:s.entries.map(e=>({...e,photos:[]}))})))); } catch(e2) { alert('\uC800\uC7A5 \uC2E4\uD328'); } }
 }
 function initGoogle() {
   let attempts = 0;
@@ -268,30 +268,30 @@ function initGoogle() {
     if (typeof google !== 'undefined' && google.accounts) {
       clearInterval(t);
       const btn = document.getElementById('googleBtn');
-      if (btn) { btn.textContent = '☁ 로그인'; btn.disabled = false; }
+      if (btn) { btn.textContent = '\u2601 \uB85C\uADF8\uC778'; btn.disabled = false; }
       const saved = sessionStorage.getItem('g_token');
-      if (saved) { gToken = saved; setGBtn(true); setSyncBar('ok','☁ 구글 드라이브 연동됨 · 동기화 중...'); loadFromDrive(); }
+      if (saved) { gToken = saved; setGBtn(true); setSyncBar('ok','\u2601 \uAD6C\uAE00 \uB4DC\uB77C\uC774\uBE0C \uC5F0\uB3D9\uB428 \u00B7 \uB3D9\uAE30\uD654 \uC911...'); loadFromDrive(); }
     } else if (attempts > 30) {
       clearInterval(t);
       const btn = document.getElementById('googleBtn');
-      if (btn) { btn.textContent = '☁ 로그인'; btn.disabled = false; }
-      setSyncBar('err','⚠ 구글 스크립트 로딩 실패 · 새로고침 후 시도');
+      if (btn) { btn.textContent = '\u2601 \uB85C\uADF8\uC778'; btn.disabled = false; }
+      setSyncBar('err','\u26A0 \uAD6C\uAE00 \uC2A4\uD06C\uB9BD\uD2B8 \uB85C\uB529 \uC2E4\uD328 \u00B7 \uC0C8\uB85C\uACE0\uCE68 \uD6C4 \uC2DC\uB3C4');
     }
   }, 500);
 }
 function handleGoogleLogin() {
-  if (gToken) { gToken=null; gFileId=null; sessionStorage.removeItem('g_token'); setGBtn(false); setSyncBar('','☁ 로컬 저장 중 · 구글 드라이브 미연동'); return; }
+  if (gToken) { gToken=null; gFileId=null; sessionStorage.removeItem('g_token'); setGBtn(false); setSyncBar('','\u2601 \uB85C\uCEEC \uC800\uC7A5 \uC911 \u00B7 \uAD6C\uAE00 \uB4DC\uB77C\uC774\uBE0C \uBBF8\uC5F0\uB3D9'); return; }
   const client = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID, scope: 'https://www.googleapis.com/auth/drive.file',
     callback: async (resp) => {
-      if (resp.error) { setSyncBar('err','⚠ 로그인 실패'); return; }
+      if (resp.error) { setSyncBar('err','\u26A0 \uB85C\uADF8\uC778 \uC2E4\uD328'); return; }
       gToken = resp.access_token; sessionStorage.setItem('g_token', gToken);
-      setGBtn(true); setSyncBar('ok','☁ 구글 드라이브 연동됨 · 동기화 중...'); await loadFromDrive();
+      setGBtn(true); setSyncBar('ok','\u2601 \uAD6C\uAE00 \uB4DC\uB77C\uC774\uBE0C \uC5F0\uB3D9\uB428 \u00B7 \uB3D9\uAE30\uD654 \uC911...'); await loadFromDrive();
     }
   });
   client.requestAccessToken();
 }
-function setGBtn(on) { const b=document.getElementById('googleBtn'); if(!b)return; b.textContent=on?'☁ 연동됨':'☁ 로그인'; b.style.color=on?'#4db8ff':''; b.style.borderColor=on?'#4db8ff':''; }
+function setGBtn(on) { const b=document.getElementById('googleBtn'); if(!b)return; b.textContent=on?'\u2601 \uC5F0\uB3D9\uB428':'\u2601 \uB85C\uADF8\uC778'; b.style.color=on?'#4db8ff':''; b.style.borderColor=on?'#4db8ff':''; }
 function setSyncBar(cls,msg) { const b=document.getElementById('syncBar'); if(!b)return; b.className='sync-bar'+(cls?' '+cls:''); b.textContent=msg; }
 async function findDriveFile() {
   const r = await fetch(`https://www.googleapis.com/drive/v3/files?q=name='${FILE_NAME}'+and+trashed=false&fields=files(id)`,{headers:{Authorization:'Bearer '+gToken}});
@@ -301,12 +301,12 @@ async function loadFromDrive() {
   if (!gToken) return;
   try {
     gFileId = await findDriveFile();
-    if (!gFileId) { setSyncBar('ok','☁ 구글 드라이브 연동됨 · 새 파일 생성 예정'); return; }
+    if (!gFileId) { setSyncBar('ok','\u2601 \uAD6C\uAE00 \uB4DC\uB77C\uC774\uBE0C \uC5F0\uB3D9\uB428 \u00B7 \uC0C8 \uD30C\uC77C \uC0DD\uC131 \uC608\uC815'); return; }
     const r = await fetch(`https://www.googleapis.com/drive/v3/files/${gFileId}?alt=media`,{headers:{Authorization:'Bearer '+gToken}});
     const data = await r.json();
     if (data&&Array.isArray(data)) { state.sessions=data; updateUI(); }
-    setSyncBar('ok','☁ 구글 드라이브 동기화 완료 · '+formatTime(new Date().toISOString()));
-  } catch(e) { setSyncBar('err','⚠ 드라이브 로드 실패 · 로컬 데이터 사용 중'); }
+    setSyncBar('ok','\u2601 \uAD6C\uAE00 \uB4DC\uB77C\uC774\uBE0C \uB3D9\uAE30\uD654 \uC644\uB8CC \u00B7 '+formatTime(new Date().toISOString()));
+  } catch(e) { setSyncBar('err','\u26A0 \uB4DC\uB77C\uC774\uBE0C \uB85C\uB4DC \uC2E4\uD328 \u00B7 \uB85C\uCEEC \uB370\uC774\uD130 \uC0AC\uC6A9 \uC911'); }
 }
 async function saveToDrive(data) {
   if (!gToken) return;
@@ -319,8 +319,8 @@ async function saveToDrive(data) {
       const m = await meta.json(); gFileId = m.id;
       await fetch(`https://www.googleapis.com/upload/drive/v3/files/${gFileId}?uploadType=media`,{method:'PATCH',headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},body:blob});
     }
-    setSyncBar('ok','☁ 구글 드라이브 저장 완료 · '+formatTime(new Date().toISOString()));
-  } catch(e) { setSyncBar('err','⚠ 드라이브 저장 실패 · 로컬에만 저장됨'); }
+    setSyncBar('ok','\u2601 \uAD6C\uAE00 \uB4DC\uB77C\uC774\uBE0C \uC800\uC7A5 \uC644\uB8CC \u00B7 '+formatTime(new Date().toISOString()));
+  } catch(e) { setSyncBar('err','\u26A0 \uB4DC\uB77C\uC774\uBE0C \uC800\uC7A5 \uC2E4\uD328 \u00B7 \uB85C\uCEEC\uC5D0\uB9CC \uC800\uC7A5\uB428'); }
 }
 function showScreen(name) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -336,15 +336,15 @@ function startSession() {
   state.entries=[]; updateUI(); showScreen('record');
 }
 function endSession() {
-  if (!state.currentSession){alert('진행중인 세션이 없습니다.');return;}
-  if (!confirm('세션을 종료하고 저장하시겠습니까?')) return;
+  if (!state.currentSession){alert('\uC9C4;&#xD589;\uC911\uC778; \uC138\uC158\uC774; \uC5C6\uC2B5\uB2C8\uB2E4;.');return;}
+  if (!confirm('\uC138\uC158\uC744; \uC885\uB8CC\uD558\uACE0; \uC800\uC7A5\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C;?')) return;
   try {
     state.currentSession.endTime=new Date().toISOString();
     state.currentSession.entries=JSON.parse(JSON.stringify(state.entries));
     const r=document.getElementById('aiReportContent'); if(r&&r.textContent) state.currentSession.aiReport=r.textContent;
     const s=JSON.parse(JSON.stringify(state.currentSession)); state.sessions.unshift(s); saveData();
-    alert('저장 완료! 항목 '+s.entries.length+'건이 저장됐습니다.');
-  } catch(e){alert('저장 오류: '+e.message);return;}
+    alert('\uC800\uC7A5; \uC644\uB8CC;! \uD56D\uBAA9; '+s.entries.length+'\uAC74\uC774; \uC800\uC7A5\uB410\uC2B5\uB2C8\uB2E4;.');
+  } catch(e){alert('\uC800\uC7A5; \uC624\uB958;: '+e.message);return;}
   state.currentSession=null; state.entries=[]; state.currentPhotos=[]; state.selectedTag=null;
   const a=document.getElementById('aiReportArea'),c=document.getElementById('aiReportContent');
   if(a)a.style.display='none'; if(c)c.textContent='';
@@ -363,67 +363,67 @@ function handlePhotos(input) {
 }
 function renderPhotoThumbs() {
   const grid=document.getElementById('photoThumbGrid'); grid.innerHTML='';
-  state.currentPhotos.forEach((src,i)=>{const d=document.createElement('div');d.className='photo-thumb';d.innerHTML=`<img src="${src}" onclick="openModal('${src}')"><button class="photo-thumb-del" onclick="removePhoto(${i})">✕</button>`;grid.appendChild(d);});
-  const add=document.createElement('div');add.className='add-photo-cell';add.textContent='＋';add.onclick=triggerPhoto;grid.appendChild(add);
+  state.currentPhotos.forEach((src,i)=>{const d=document.createElement('div');d.className='photo-thumb';d.innerHTML=`<img src="${src}" onclick="openModal('${src}')"><button class="photo-thumb-del" onclick="removePhoto(${i})">\u2715</button>`;grid.appendChild(d);});
+  const add=document.createElement('div');add.className='add-photo-cell';add.textContent='\uff0b';add.onclick=triggerPhoto;grid.appendChild(add);
 }
 function removePhoto(i){state.currentPhotos.splice(i,1);renderPhotoThumbs();}
 function addEntry() {
   const desc=document.getElementById('entryDesc').value.trim();
-  if(!desc&&state.currentPhotos.length===0){alert('내용 또는 사진을 추가해주세요.');return;}
-  if(!state.selectedTag){alert('분류를 선택해주세요.');return;}
+  if(!desc&&state.currentPhotos.length===0){alert('\uB0B4\uC6A9; \uB610\uB294; \uC0AC\uC9C4\uC744; \uCD94\uAC00\uD574\uC8FC\uC138\uC694;.');return;}
+  if(!state.selectedTag){alert('\uBD84\uB958\uB97C; \uC120\uD0DD\uD574\uC8FC\uC138\uC694;.');return;}
   state.entries.unshift({id:Date.now(),tag:state.selectedTag,desc,photos:[...state.currentPhotos],time:new Date().toISOString()});
   document.getElementById('entryDesc').value=''; state.currentPhotos=[]; state.selectedTag=null;
   document.querySelectorAll('#screen-record .tag-btn').forEach(b=>b.className='tag-btn');
   renderPhotoThumbs(); renderEntries();
 }
-function deleteEntry(id){if(!confirm('삭제하시겠습니까?'))return;state.entries=state.entries.filter(e=>e.id!==id);renderEntries();}
+function deleteEntry(id){if(!confirm('\uC0AD\uC81C\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C;?'))return;state.entries=state.entries.filter(e=>e.id!==id);renderEntries();}
 function renderEntries() {
   const list=document.getElementById('entryList');
   document.getElementById('entryCount').textContent=state.entries.length;
-  if(state.entries.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div>아직 기록된 항목이 없습니다</div></div>';return;}
-  list.innerHTML=state.entries.map(e=>`<div class="entry-card"><div class="entry-card-header"><span class="entry-tag tag-${e.tag}">${e.tag}</span><div style="display:flex;align-items:center;gap:8px"><span class="entry-time">${formatTime(e.time)}</span><button class="entry-del-btn" onclick="deleteEntry(${e.id})">✕</button></div></div><div class="entry-card-body">${e.desc?`<div class="entry-desc">${e.desc}</div>`:''}${e.photos&&e.photos.length>0?`<div class="entry-photos">${e.photos.map(p=>`<img src="${p}" onclick="openModal('${p}')">`).join('')}</div>`:''}</div></div>`).join('');
+  if(state.entries.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">\uD83D\uDCCB</div><div>\uC544\uC9C1; \uAE30\uB85D\uB41C; \uD56D\uBAA9\uC774; \uC5C6\uC2B5\uB2C8\uB2E4;</div></div>';return;}
+  list.innerHTML=state.entries.map(e=>`<div class="entry-card"><div class="entry-card-header"><span class="entry-tag tag-${e.tag}">${e.tag}</span><div style="display:flex;align-items:center;gap:8px"><span class="entry-time">${formatTime(e.time)}</span><button class="entry-del-btn" onclick="deleteEntry(${e.id})">\u2715</button></div></div><div class="entry-card-body">${e.desc?`<div class="entry-desc">${e.desc}</div>`:''}${e.photos&&e.photos.length>0?`<div class="entry-photos">${e.photos.map(p=>`<img src="${p}" onclick="openModal('${p}')">`).join('')}</div>`:''}</div></div>`).join('');
 }
 function toggleVoice() {
-  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){alert('Safari 또는 Chrome을 사용해주세요.');return;}
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){alert('Safari \uB610\uB294; Chrome\uC744; \uC0AC\uC6A9\uD574\uC8FC\uC138\uC694;.');return;}
   if(state.isRecording){state.recognition&&state.recognition.stop();return;}
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   state.recognition=new SR(); state.recognition.lang='ko-KR'; state.recognition.continuous=true; state.recognition.interimResults=true;
-  state.recognition.onstart=()=>{state.isRecording=true;const b=document.getElementById('voiceBtn');b.classList.add('recording');document.getElementById('voiceBtnText').textContent='녹음 중... (탭하여 중지)';document.getElementById('voiceBtnIcon').innerHTML='<div class="voice-indicator"><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div></div>';};
+  state.recognition.onstart=()=>{state.isRecording=true;const b=document.getElementById('voiceBtn');b.classList.add('recording');document.getElementById('voiceBtnText').textContent='\uB179\uC74C; \uC911;... (\uD0ED\uD558\uC5EC; \uC911\uC9C0;)';document.getElementById('voiceBtnIcon').innerHTML='<div class="voice-indicator"><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div></div>';};
   state.recognition.onresult=(event)=>{let t='';for(let i=0;i<event.results.length;i++)t+=event.results[i][0].transcript;document.getElementById('entryDesc').value=t;};
-  state.recognition.onend=()=>{state.isRecording=false;const b=document.getElementById('voiceBtn');b.classList.remove('recording');document.getElementById('voiceBtnText').textContent='음성으로 설명하기';document.getElementById('voiceBtnIcon').textContent='🎙';};
+  state.recognition.onend=()=>{state.isRecording=false;const b=document.getElementById('voiceBtn');b.classList.remove('recording');document.getElementById('voiceBtnText').textContent='\uC74C\uC131\uC73C\uB85C; \uC124\uBA85\uD558\uAE30;';document.getElementById('voiceBtnIcon').textContent='\uD83C\uDF99;';};
   state.recognition.start();
 }
 async function generateReport() {
-  if(state.entries.length===0){alert('기록된 항목이 없습니다.');return;}
+  if(state.entries.length===0){alert('\uAE30\uB85D\uB41C; \uD56D\uBAA9\uC774; \uC5C6\uC2B5\uB2C8\uB2E4;.');return;}
   const ra=document.getElementById('aiReportArea'),rc=document.getElementById('aiReportContent');
-  ra.style.display='block'; rc.innerHTML='<div class="ai-loading"><div class="spinner"></div>AI가 분석 중입니다...</div>';
+  ra.style.display='block'; rc.innerHTML='<div class="ai-loading"><div class="spinner"></div>AI\uAC00; \uBD84\uC11D; \uC911\uC785\uB2C8\uB2E4;...</div>';
   const s=state.currentSession;
-  const prompt=`커피 로스터기 제조 전문가로서 TRINITAS ${s.model} 조립 수정사항을 분석하여 보고서를 작성해주세요.\n모델:${s.model} 시리얼:${s.serial} 일시:${formatDate(s.startTime)} 담당:${s.worker}\n수정사항:\n${state.entries.map((e,i)=>`${i+1}.[${e.tag}] ${e.desc||'(텍스트없음)'}`).join('\n')}\n\n1.요약 2.도면수정 3.조립순서주의 4.부품변경 5.아이디어 6.메모 7.다음조립시반영사항 순으로 작성`;
+  const prompt=`\uCEE4\uD53C; \uB85C\uC2A4\uD130\uAE30; \uC81C\uC870; \uC804\uBB38\uAC00\uB85C\uC11C; TRINITAS ${s.model} \uC870\uB9BD; \uC218\uC815\uC0AC\uD56D\uC744; \uBD84\uC11D\uD558\uC5EC; \uBCF4\uACE0\uC11C\uB97C; \uC791\uC131\uD574\uC8FC\uC138\uC694;.\n\uBAA8\uB378;:${s.model} \uC2DC\uB9AC\uC5BC;:${s.serial} \uC77C\uC2DC;:${formatDate(s.startTime)} \uB2F4\uB2F9;:${s.worker}\n\uC218\uC815\uC0AC\uD56D;:\n${state.entries.map((e,i)=>`${i+1}.[${e.tag}] ${e.desc||'(\uD14D\uC2A4\uD2B8\uC5C6\uC74C;)'}`).join('\n')}\n\n1.\uC694\uC57D; 2.\uB3C4\uBA74\uC218\uC815; 3.\uC870\uB9BD\uC21C\uC11C\uC8FC\uC758;4.\uBD80\uD488\uBCC0\uACBD; 5.\uC544\uC774\uB514\uC5B4; 6.\uBA54\uBAA8; 7.\uB2E4\uC74C\uC870\uB9BD\uC2DC\uBC18\uC601\uC0AC\uD56D; \uC21C\uC73C\uB85C; \uC791\uC131;`;
   try {
     const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const data=await resp.json(); rc.textContent=data.content?.find(c=>c.type==='text')?.text||'분석 실패';
-  } catch(e){rc.textContent='오류가 발생했습니다.';}
+    const data=await resp.json(); rc.textContent=data.content?.find(c=>c.type==='text')?.text||'\uBD84\uC11D; \uC2E4\uD328;';
+  } catch(e){rc.textContent='\uC624\uB958\uAC00; \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4;.';}
 }
 function renderHistory(filter) {
   const list=document.getElementById('historyList');
   let sessions=[...state.sessions];
   if(filter!=='all'){
-    const tags=['도면수정','조립순서','부품변경','아이디어','메모'];
+    const tags=['\uB3C4\uBA74\uC218\uC815;','\uC870\uB9BD\uC21C\uC11C;','\uBD80\uD488\uBCC0\uACBD;','\uC544\uC774\uB514\uC5B4;','\uBA54\uBAA8;'];
     sessions=tags.includes(filter)?sessions.filter(s=>s.entries.some(e=>e.tag===filter)):sessions.filter(s=>s.model===filter);
   }
-  if(sessions.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">📂</div><div>해당 조건의 세션이 없습니다</div></div>';return;}
+  if(sessions.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">\uD83D\uDCC2</div><div>\uD574\uB2F9; \uC870\uAC74\uC758; \uC138\uC158\uC774; \uC5C6\uC2B5\uB2C8\uB2E4;</div></div>';return;}
   list.innerHTML=sessions.map(s=>{
     const tc={};s.entries.forEach(e=>{tc[e.tag]=(tc[e.tag]||0)+1;});
     const badges=Object.entries(tc).map(([t,c])=>`<span class="entry-tag tag-${t}" style="font-size:10px;padding:2px 8px">${t} ${c}</span>`).join('');
-    const ah=s.aiReport?`<div class="ai-report" style="margin-top:12px"><div class="ai-report-title">▸ AI 분석 리포트</div><div class="ai-report-content">${s.aiReport}</div></div>`:'';
+    const ah=s.aiReport?`<div class="ai-report" style="margin-top:12px"><div class="ai-report-title">\u25B8 AI \uBD84\uC11D; \uB9AC\uD3EC\uD2B8;</div><div class="ai-report-content">${s.aiReport}</div></div>`:'';
     const entryHtml=s.entries.map(e=>`
       <div class="entry-card" style="margin-bottom:8px" id="ecard-${s.id}-${e.id}">
         <div class="entry-card-header">
           <span class="entry-tag tag-${e.tag}">${e.tag}</span>
           <div style="display:flex;align-items:center;gap:6px">
             <span class="entry-time">${formatTime(e.time)}</span>
-            <button class="btn btn-outline btn-sm" style="padding:3px 8px;font-size:11px" onclick="startEditEntry(${s.id},${e.id})">✏️</button>
-            <button class="entry-del-btn" onclick="deleteEntryFromSession(${s.id},${e.id})">✕</button>
+            <button class="btn btn-outline btn-sm" style="padding:3px 8px;font-size:11px" onclick="startEditEntry(${s.id},${e.id})">\u270F\uFE0F</button>
+            <button class="entry-del-btn" onclick="deleteEntryFromSession(${s.id},${e.id})">\u2715</button>
           </div>
         </div>
         <div class="entry-card-body" id="ebody-${s.id}-${e.id}">
@@ -432,20 +432,20 @@ function renderHistory(filter) {
         </div>
         <div class="entry-edit-form" id="eedit-${s.id}-${e.id}" style="display:none;padding:12px 14px;border-top:1px solid var(--border)">
           <div class="tag-selector" style="margin-bottom:10px">
-            ${['도면수정','조립순서','부품변경','아이디어','메모'].map(t=>`<button class="tag-btn${e.tag===t?' selected-'+t:''}" data-tag="${t}" onclick="setEditTag(${s.id},${e.id},'${t}',this)">${t}</button>`).join('')}
+            ${['\uB3C4\uBA74\uC218\uC815;','\uC870\uB9BD\uC21C\uC11C;','\uBD80\uD488\uBCC0\uACBD;','\uC544\uC774\uB514\uC5B4;','\uBA54\uBAA8;'].map(t=>`<button class="tag-btn${e.tag===t?' selected-'+t:''}" data-tag="${t}" onclick="setEditTag(${s.id},${e.id},'${t}',this)">${t}</button>`).join('')}
           </div>
           <textarea class="form-textarea" id="etxt-${s.id}-${e.id}" style="margin-bottom:8px;min-height:60px">${e.desc||''}</textarea>
           <div style="margin-bottom:8px">
-            <button class="btn btn-outline btn-sm" onclick="addPhotoToEntry(${s.id},${e.id})" style="width:100%">📷 사진 추가</button>
+            <button class="btn btn-outline btn-sm" onclick="addPhotoToEntry(${s.id},${e.id})" style="width:100%">\uD83D\uDCF7 \uC0AC\uC9C4; \uCD94\uAC00;</button>
             <input type="file" id="ephoto-${s.id}-${e.id}" accept="image/*" multiple style="display:none" onchange="handleEntryPhoto(this,${s.id},${e.id})">
           </div>
           <div class="flex-row">
-            <button class="btn btn-primary btn-sm" onclick="saveEditEntry(${s.id},${e.id})" style="flex:1">저장</button>
-            <button class="btn btn-outline btn-sm" onclick="cancelEditEntry(${s.id},${e.id})" style="flex:1">취소</button>
+            <button class="btn btn-primary btn-sm" onclick="saveEditEntry(${s.id},${e.id})" style="flex:1">\uC800\uC7A5;</button>
+            <button class="btn btn-outline btn-sm" onclick="cancelEditEntry(${s.id},${e.id})" style="flex:1">\uCDE8\uC18C;</button>
           </div>
         </div>
       </div>`).join('');
-    return `<div class="session-card"><div class="session-card-header" onclick="toggleSession(this)"><div><div style="font-weight:600;font-size:15px">${s.model} · ${s.serial}</div><div class="session-meta">${formatDate(s.startTime)} · ${s.worker}</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${badges}</div></div><span class="count-badge">${s.entries.length}건</span></div><div class="session-card-body">${entryHtml}${ah}<div class="mt-12 gap-8"><button class="btn btn-outline btn-sm" onclick="copyForClaude(${s.id})" style="width:100%;background:rgba(77,184,255,0.1);border-color:#4db8ff;color:#4db8ff">🤖 Claude로 분석하기</button><button class="btn btn-outline btn-sm" onclick="deleteSession(${s.id})" style="width:100%">🗑 세션 삭제</button></div></div></div>`;
+    return `<div class="session-card"><div class="session-card-header" onclick="toggleSession(this)"><div><div style="font-weight:600;font-size:15px">${s.model} \u00B7 ${s.serial}</div><div class="session-meta">${formatDate(s.startTime)} \u00B7 ${s.worker}</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${badges}</div></div><span class="count-badge">${s.entries.length}\uAC74;</span></div><div class="session-card-body">${entryHtml}${ah}<div class="mt-12 gap-8"><button class="btn btn-outline btn-sm" onclick="copyForClaude(${s.id})" style="width:100%;background:rgba(77,184,255,0.1);border-color:#4db8ff;color:#4db8ff">\uD83E\uDD16 Claude\uB85C; \uBD84\uC11D\uD558\uAE30;</button><button class="btn btn-outline btn-sm" onclick="deleteSession(${s.id})" style="width:100%">\uD83D\uDDD1 \uC138\uC158; \uC0AD\uC81C;</button></div></div></div>`;
   }).join('');
 }
 function toggleSession(h){h.nextElementSibling.classList.toggle('open');}
@@ -459,13 +459,13 @@ function searchHistory(keyword) {
     const txt=[s.model,s.serial,s.note||'',...s.entries.map(e=>e.desc||''),...s.entries.map(e=>e.tag)].join(' ').toLowerCase();
     return keywords.every(kw=>txt.includes(kw));
   });
-  if(matched.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">🔍</div><div>검색 결과가 없습니다</div></div>';return;}
+  if(matched.length===0){list.innerHTML='<div class="empty"><div class="empty-icon">\uD83D\uDD0D</div><div>\uAC80\uC0C9; \uACB0\uACFC\uAC00; \uC5C6\uC2B5\uB2C8\uB2E4;</div></div>';return;}
   list.innerHTML=matched.map(s=>{
     const me=s.entries.filter(e=>e.desc&&keywords.some(kw=>e.desc.toLowerCase().includes(kw)));
     const tc={};s.entries.forEach(e=>{tc[e.tag]=(tc[e.tag]||0)+1;});
     const badges=Object.entries(tc).map(([t,c])=>`<span class="entry-tag tag-${t}" style="font-size:10px;padding:2px 8px">${t} ${c}</span>`).join('');
     const eh=me.map(e=>{let hl=e.desc;keywords.forEach(kw=>{hl=hl.replace(new RegExp(kw,'gi'),m=>`<mark style="background:#ffc300;color:#000;border-radius:2px;padding:0 2px">${m}</mark>`);});return `<div class="entry-card" style="margin-bottom:8px"><div class="entry-card-header"><span class="entry-tag tag-${e.tag}">${e.tag}</span><span class="entry-time">${formatTime(e.time)}</span></div><div class="entry-card-body"><div class="entry-desc">${hl}</div></div></div>`;}).join('');
-    return `<div class="session-card"><div class="session-card-header" onclick="toggleSession(this)"><div><div style="font-weight:600;font-size:15px">${s.model} · ${s.serial}</div><div class="session-meta">${formatDate(s.startTime)} · ${s.worker}</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${badges}</div></div><span class="count-badge" style="color:#ffc300">${me.length}건 매칭</span></div><div class="session-card-body open">${eh}</div></div>`;
+    return `<div class="session-card"><div class="session-card-header" onclick="toggleSession(this)"><div><div style="font-weight:600;font-size:15px">${s.model} \u00B7 ${s.serial}</div><div class="session-meta">${formatDate(s.startTime)} \u00B7 ${s.worker}</div><div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">${badges}</div></div><span class="count-badge" style="color:#ffc300">${me.length}\uAC74; \uB9E4\uCE6D;</span></div><div class="session-card-body open">${eh}</div></div>`;
   }).join('');
 }
 function startEditEntry(sid,eid){document.getElementById(`eedit-${sid}-${eid}`).style.display='block';document.getElementById(`ebody-${sid}-${eid}`).style.display='none';}
@@ -482,29 +482,29 @@ function saveEditEntry(sid,eid){
   e.desc=document.getElementById(`etxt-${sid}-${eid}`).value.trim();
   saveData();renderHistory('all');
 }
-function deleteEntryFromSession(sid,eid){if(!confirm('이 항목을 삭제하시겠습니까?'))return;const s=state.sessions.find(s=>s.id===sid);if(!s)return;s.entries=s.entries.filter(e=>e.id!==eid);saveData();renderHistory('all');}
+function deleteEntryFromSession(sid,eid){if(!confirm('\uC774; \uD56D\uBAA9\uC744; \uC0AD\uC81C\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C;?'))return;const s=state.sessions.find(s=>s.id===sid);if(!s)return;s.entries=s.entries.filter(e=>e.id!==eid);saveData();renderHistory('all');}
 function copyForClaude(sid){
   const s=state.sessions.find(s=>s.id===sid);if(!s)return;
-  const text=`TRINITAS ${s.model} 조립 세션 분석 요청\n모델: ${s.model}\n시리얼/호기: ${s.serial}\n담당자: ${s.worker}\n조립일시: ${formatDate(s.startTime)}\n${s.note?'비고: '+s.note:''}\n\n수정/기록 사항 (${s.entries.length}건):\n${s.entries.map((e,i)=>`${i+1}. [${e.tag}] ${e.desc||'(텍스트 없음)'} (${formatTime(e.time)})`).join('\n')}\n\n위 내용을 분석하여 다음을 작성해주세요:\n1. 요약\n2. 도면수정 항목\n3. 조립순서 주의사항\n4. 부품변경 항목\n5. 아이디어 및 메모\n6. 다음 조립 시 반영사항`;
-  navigator.clipboard.writeText(text).then(()=>{alert('클립보드에 복사됐습니다!\n\nClaude 대화창에 붙여넣기(Ctrl+V)하면 바로 분석해드립니다.');}).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;height:60%;z-index:9999;background:#1c2222;color:#e8efef;border:1px solid #4db8ff;padding:16px;border-radius:8px;font-size:12px';document.body.appendChild(ta);ta.select();document.execCommand('copy');setTimeout(()=>document.body.removeChild(ta),3000);alert('복사됐습니다! Claude 대화창에 붙여넣기하세요.');});
+  const text=`TRINITAS ${s.model} \uC870\uB9BD; \uC138\uC158; \uBD84\uC11D; \uC694\uCCAD;\n\uBAA8\uB378;: ${s.model}\n\uC2DC\uB9AC\uC5BC;/\uD638\uAE30;: ${s.serial}\n\uB2F4\uB2F9\uC790;: ${s.worker}\n\uC870\uB9BD\uC77C\uC2DC;: ${formatDate(s.startTime)}\n${s.note?'\uBE44\uACE0;: '+s.note:''}\n\n\uC218\uC815;/\uAE30\uB85D; \uC0AC\uD56D; (${s.entries.length}\uAC74;):\n${s.entries.map((e,i)=>`${i+1}. [${e.tag}] ${e.desc||'(\uD14D\uC2A4\uD2B8; \uC5C6\uC74C;)'} (${formatTime(e.time)})`).join('\n')}\n\n\uC704; \uB0B4\uC6A9\uC744; \uBD84\uC11D\uD558\uC5EC; \uB2E4\uC74C\uC744; \uC791\uC131\uD574\uC8FC\uC138\uC694;:\n1. \uC694\uC57D;\n2. \uB3C4\uBA74\uC218\uC815; \uD56D\uBAA9;\n3. \uC870\uB9BD\uC21C\uC11C; \uC8FC\uC758\uC0AC\uD56D;\n4. \uBD80\uD488\uBCC0\uACBD; \uD56D\uBAA9;\n5. \uC544\uC774\uB514\uC5B4; \uBC0F; \uBA54\uBAA8;\n6. \uB2E4\uC74C; \uC870\uB9BD; \uC2DC; \uBC18\uC601\uC0AC\uD56D;`;
+  navigator.clipboard.writeText(text).then(()=>{alert('\uD074\uB9BD\uBCF4\uB4DC\uC5D0; \uBCF5\uC0AC\uB410\uC2B5\uB2C8\uB2E4;!\n\nClaude \uB300\uD654\uCC3D\uC5D0; \uBD99\uC5EC\uB123\uAE30;(Ctrl+V)\uD558\uBA74; \uBC14\uB85C; \uBD84\uC11D\uD574\uB4DC\uB9BD\uB2C8\uB2E4;.');}).catch(()=>{const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;height:60%;z-index:9999;background:#1c2222;color:#e8efef;border:1px solid #4db8ff;padding:16px;border-radius:8px;font-size:12px';document.body.appendChild(ta);ta.select();document.execCommand('copy');setTimeout(()=>document.body.removeChild(ta),3000);alert('\uBCF5\uC0AC\uB410\uC2B5\uB2C8\uB2E4;! Claude \uB300\uD654\uCC3D\uC5D0; \uBD99\uC5EC\uB123\uAE30;\uD558\uC138\uC694;.');});
 }
-function deleteSession(id){if(!confirm('이 세션을 삭제하시겠습니까?'))return;state.sessions=state.sessions.filter(s=>s.id!==id);saveData();renderHistory('all');}
+function deleteSession(id){if(!confirm('\uC774; \uC138\uC158\uC744; \uC0AD\uC81C\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C;?'))return;state.sessions=state.sessions.filter(s=>s.id!==id);saveData();renderHistory('all');}
 function toggleManualTag(btn){const tag=btn.dataset.tag,idx=state.manualSelectedTags.indexOf(tag);if(idx>-1){state.manualSelectedTags.splice(idx,1);btn.className='tag-btn';}else{state.manualSelectedTags.push(tag);btn.classList.add('selected-'+tag);}}
 async function generateManual() {
   const model=document.getElementById('manualModel').value,tags=state.manualSelectedTags;
-  if(tags.length===0){alert('포함할 항목을 선택해주세요.');return;}
+  if(tags.length===0){alert('\uD3EC\uD568\uD560; \uD56D\uBAA9\uC744; \uC120\uD0DD\uD574\uC8FC\uC138\uC694;.');return;}
   let sessions=state.sessions;if(model!=='all')sessions=sessions.filter(s=>s.model===model);
   const allEntries=sessions.flatMap(s=>s.entries.filter(e=>tags.includes(e.tag)).map(e=>({...e,model:s.model,serial:s.serial,date:s.startTime})));
-  if(allEntries.length===0){alert('해당 조건의 기록이 없습니다.');return;}
+  if(allEntries.length===0){alert('\uD574\uB2F9; \uC870\uAC74\uC758; \uAE30\uB85D\uC774; \uC5C6\uC2B5\uB2C8\uB2E4;.');return;}
   const out=document.getElementById('manualOutput'),con=document.getElementById('manualContent');
-  out.style.display='block';con.innerHTML='<div class="ai-loading"><div class="spinner"></div>매뉴얼을 생성 중입니다...</div>';
-  const prompt=`커피 로스터기 제조 전문가로서 TRINITAS ${model==='all'?'전모델':model} 조립 이력을 바탕으로 작업 매뉴얼을 작성해주세요.\n\n이력:\n${allEntries.map((e,i)=>`${i+1}.[${e.tag}][${e.model}·${e.serial}] ${e.desc||''}`).join('\n')}\n\n1.도면수정이력 2.조립순서주의사항(체크리스트) 3.부품변경이력 4.아이디어 5.작업팁 순으로 작성`;
+  out.style.display='block';con.innerHTML='<div class="ai-loading"><div class="spinner"></div>\uB9E4\uB274\uC5BC\uC744; \uC0DD\uC131; \uC911\uC785\uB2C8\uB2E4;...</div>';
+  const prompt=`\uCEE4\uD53C; \uB85C\uC2A4\uD130\uAE30; \uC81C\uC870; \uC804\uBB38\uAC00\uB85C\uC11C; TRINITAS ${model==='\uC804\uCCB4;'?'\uC804\uBAA8\uB378;':model} \uC870\uB9BD; \uC774\uB825\uC744; \uBC14\uD0D5\uC73C\uB85C; \uC791\uC5C5; \uB9E4\uB274\uC5BC\uC744; \uC791\uC131\uD574\uC8FC\uC138\uC694;.\n\n\uC774\uB825;:\n${allEntries.map((e,i)=>`${i+1}.[${e.tag}][${e.model}\u00B7${e.serial}] ${e.desc||''}`).join('\n')}\n\n1.\uB3C4\uBA74\uC218\uC815\uC774\uB825; 2.\uC870\uB9BD\uC21C\uC11C\uC8FC\uC758\uC0AC\uD56D;(\uCCB4\uD06C\uB9AC\uC2A4\uD2B8;) 3.\uBD80\uD488\uBCC0\uACBD\uC774\uB825; 4.\uC544\uC774\uB514\uC5B4; 5.\uC791\uC5C5\uD301; \uC21C\uC73C\uB85C; \uC791\uC131;`;
   try {
     const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    const data=await resp.json();con.textContent=data.content?.find(c=>c.type==='text')?.text||'생성 실패';
-  } catch(e){con.textContent='오류가 발생했습니다.';}
+    const data=await resp.json();con.textContent=data.content?.find(c=>c.type==='text')?.text||'\uC0DD\uC131; \uC2E4\uD328;';
+  } catch(e){con.textContent='\uC624\uB958\uAC00; \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4;.';}
 }
-function copyManual(){navigator.clipboard.writeText(document.getElementById('manualContent').textContent).then(()=>alert('클립보드에 복사되었습니다.'));}
+function copyManual(){navigator.clipboard.writeText(document.getElementById('manualContent').textContent).then(()=>alert('\uD074\uB9BD\uBCF4\uB4DC\uC5D0; \uBCF5\uC0AC\uB418\uC5C8\uC2B5\uB2C8\uB2E4;.'));}
 function updateUI() {
   const h=!!state.currentSession;
   document.getElementById('no-session').style.display=h?'none':'block';
@@ -512,7 +512,7 @@ function updateUI() {
   document.getElementById('start-session-form').style.display=h?'none':'block';
   document.getElementById('end-session-form').style.display=h?'block':'none';
   document.getElementById('sessionDot').className='session-dot'+(h?' recording':'');
-  if(h){const l=`${state.currentSession.model} · ${state.currentSession.serial}`,t=formatDate(state.currentSession.startTime);document.getElementById('active-session-label').textContent=l;document.getElementById('active-session-time').textContent=t;document.getElementById('session-end-label').textContent=l;document.getElementById('session-end-time').textContent=t;}
+  if(h){const l=`${state.currentSession.model} \u00B7 ${state.currentSession.serial}`,t=formatDate(state.currentSession.startTime);document.getElementById('active-session-label').textContent=l;document.getElementById('active-session-time').textContent=t;document.getElementById('session-end-label').textContent=l;document.getElementById('session-end-time').textContent=t;}
   renderEntries();renderPhotoThumbs();
 }
 function openModal(src){document.getElementById('modalImg').src=src;document.getElementById('imgModal').classList.add('open');}
